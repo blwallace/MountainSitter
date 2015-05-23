@@ -83,7 +83,7 @@ class Sites extends CI_Controller {
 			}
 			else
 			{
-				$error_log = array('Inactive Station');
+				$error_log = "Station not working";
 	            $this->session->set_flashdata("site_error", $error_log);
 	            redirect('/sites');
 			}
