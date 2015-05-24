@@ -23,10 +23,10 @@ class Site extends CI_Model {
 		return $this->db->query($query,$pws)->result_array();
 	}
 
-	public function add_document($document)
+	public function add_document($document,$id)
 	{
-		$query = "INSERT INTO documents (document,created_at) VALUES (?,NOW())";
-		$values = array($document);
+		$query = "INSERT INTO documents (site_id,document,created_at) VALUES (?,?,NOW())";
+		$values = array($id,$document);
 		return $this->db->query($query,$values);
 	}
 

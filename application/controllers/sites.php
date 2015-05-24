@@ -109,11 +109,15 @@ class Sites extends CI_Controller {
 	public function add_document()
 	{
 		//
-		$json_string = file_get_contents("http://api.wunderground.com/api/de7ee2cef1184d4c/conditions/q/pws:MMSSKI.json");
-		$this->site->add_document($json_string);
 
-		$this->load->view('index');
-		$this->load->view('sites');
+		$sites = $this->site->get_sites();
+
+		foreach ($sites as $site)
+		{
+			$station_id = $site['site_name'];
+			$json_string = file_get_contents("http://api.wunderground.com/api/de7ee2cef1184d4c/conditions/q/pws:" .$station_id.".json");
+			$this->site->add_document($json_string,$site['id']);
+		}
 
 		$documents = $this->site->get_documents();
 
