@@ -9,10 +9,12 @@
 			      <tr>
 					<th>Full Name</th>
 			        <th>PWS</th>
-			        <th>City, State</th>
 			        <th>Elevation</th>
 			        <th>Latitude</th>
 			        <th>Longitude</th>
+			        <th>Status</th>
+			        <th>Action</th>
+			        <th>Delete</th>
 			      </tr>
 			    </thead>
 			    <tbody>
@@ -22,10 +24,41 @@
 			      <tr>
 			        <td><?= $site['full'] ?></td>			      	
 			        <td><?= $site['site_name'] ?></td>
-			        <td><?= $site['city'] ?>, <?=$site['state']?></td>
 			        <td><?= $site['elevation'] ?></td>
 			        <td><?= $site['longitude'] ?></td>
 			        <td><?= $site['latitude'] ?></td>
+
+<?php
+
+					//Updates sites table.
+					if ($site['deactivated_at'] == '')
+					{
+			       		echo  "<td>Recording</td>";
+					}
+
+					else 
+					{
+			       		echo  "<td>Not Recording</td>";
+					}
+
+
+?>
+<?php
+
+					//Updates sites table.
+					if ($site['deactivated_at'] == '')
+					{
+			       		echo  "<td><a href='/sites/deactivate/" . $site['id'] . "'>Deactivate</a></td>";
+					}
+
+					else 
+					{
+			       		echo  "<td><a href='/sites/activate/" . $site['id'] . "'>Activate</a></td>";
+					}
+
+
+?>
+			        <td><a href="/sites/delete/<?= $site['id'] ?>">Delete</a></td>
 			      </tr>
 <?php 			}?>
 			    </tbody>

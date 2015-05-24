@@ -108,9 +108,9 @@ class Sites extends CI_Controller {
 
 	public function add_document()
 	{
-		//
+		// $sites = $this->site->get_sites();
+		$sites = $this->site->get_active_sites();
 
-		$sites = $this->site->get_sites();
 
 		foreach ($sites as $site)
 		{
@@ -129,8 +129,20 @@ class Sites extends CI_Controller {
         	$tempf = $contents->current_observation->temp_f;
         	array_push($temp,"Conditions: " . $content . "--- Temp: ".$tempf);
         }
-        var_dump($temp);
 	}
+
+	public function deactivate($id)	
+	{
+		$this->site->deactivate_site($id);
+		redirect('/sites');
+	}
+
+	public function activate($id)
+	{
+		$this->site->activate_site($id);
+		redirect('/sites');		
+	}
+
 }
 
 //end of main controller

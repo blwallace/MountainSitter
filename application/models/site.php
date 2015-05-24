@@ -16,6 +16,12 @@ class Site extends CI_Model {
 		return $this->db->query($query)->result_array();
 	}
 
+	public function get_active_sites()
+	{
+		$query = "SELECT * FROM sites WHERE deactivated_at IS NULL AND deleted_at IS NULL";
+		return $this->db->query($query)->result_array();
+	}
+
 	public function search_site($pws)
 	{
 		$query = "SELECT * from sites where sites.site_name like ?";
@@ -34,6 +40,20 @@ class Site extends CI_Model {
 	{
 		$query = "SELECT * from documents";
 		return $this->db->query($query)->result_array();
+	}
+
+	public function deactivate_site($id)
+	{
+		$query = "UPDATE sites SET deactivated_at = Now() WHERE id = ?";
+		$values = array($id);
+		return $this->db->query($query,$values);
+	}
+
+	public function activate_site($id)
+	{
+		$query = "UPDATE sites SET deactivated_at = NULL WHERE id = ?";
+		$values = array($id);
+		return $this->db->query($query,$values);
 	}
 
 
