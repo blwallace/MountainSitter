@@ -12,9 +12,15 @@ class Site extends CI_Model {
 
 	public function get_sites()
 	{
-		$query= 'SELECT * from sites';
+		$query= 'SELECT * from sites WHERE deleted_at IS NULL';
 		return $this->db->query($query)->result_array();
 	}
+
+	public function get_deleted_sites()
+	{
+		$query= 'SELECT * from sites WHERE deleted_at IS NOT NULL';
+		return $this->db->query($query)->result_array();
+	}	
 
 	public function get_active_sites()
 	{
@@ -52,6 +58,27 @@ class Site extends CI_Model {
 	public function activate_site($id)
 	{
 		$query = "UPDATE sites SET deactivated_at = NULL WHERE id = ?";
+		$values = array($id);
+		return $this->db->query($query,$values);
+	}
+
+	public function delete_site($id)
+	{
+		$query = "UPDATE sites SET deleted_at = Now() WHERE id = ?";
+		$values = array($id);
+		return $this->db->query($query,$values);
+	}	
+
+	public function undelete_site($id)
+	{
+		$query = "UPDATE sites SET deleted+at = NULL WHERE id = ?";
+		$values = array($id);
+		return $this->db->query($query,$values);
+	}
+
+	public function revive_site($id)
+	{
+		$query = "UPDATE sites SET deleted_at = NULL where id = ?";
 		$values = array($id);
 		return $this->db->query($query,$values);
 	}

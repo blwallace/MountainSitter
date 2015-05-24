@@ -3,6 +3,8 @@
 		<div class="col-xs-12">
 			<div class="intro">
 			<h4><a href="/sites/add_document">Update Sites Documents</a></h4>
+			<h4><a href="/sites/deleted">View Deleted Sites</a></h4>
+
 
 			<table class="table table-striped">
 			    <thead>
@@ -58,7 +60,21 @@
 
 
 ?>
-			        <td><a href="/sites/delete/<?= $site['id'] ?>">Delete</a></td>
+<?php
+
+					//Updates sites table.
+					if ($site['deleted_at'] == '')
+					{
+			       		echo  "<td><a href='/sites/delete/" . $site['id'] . "'>Delete</a></td>";
+					}
+
+					else 
+					{
+			       		echo  "<td><a href='/sites/revive/" . $site['id'] . "'>Revive</a></td>";
+					}
+
+
+?>			        
 			      </tr>
 <?php 			}?>
 			    </tbody>

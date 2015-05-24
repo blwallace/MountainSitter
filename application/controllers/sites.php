@@ -141,7 +141,32 @@ class Sites extends CI_Controller {
 	{
 		$this->site->activate_site($id);
 		redirect('/sites');		
-		
+	}
+
+	public function delete($id)
+	{
+		$this->site->delete_site($id);
+		$this->deactivate($id);
+		redirect('/sites');
+	}
+
+	public function deleted()
+	{
+		$sites = $this->site->get_deleted_sites();
+
+		$data = array(
+			'sites' => $sites);
+
+		$this->load->view('index');
+		$this->load->view('sites',$data);
+	}
+
+	public function revive($id)
+	{
+		$this->site->revive_site($id);
+		$this->activate($id);
+
+		redirect('/sites/deleted');
 	}
 
 }
