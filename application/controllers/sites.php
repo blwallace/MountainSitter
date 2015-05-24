@@ -141,6 +141,7 @@ class Sites extends CI_Controller {
 	{
 		$this->site->activate_site($id);
 		redirect('/sites');		
+		
 	}
 
 }
