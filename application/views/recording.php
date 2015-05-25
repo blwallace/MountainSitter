@@ -22,7 +22,7 @@
 			        <td><?= $location['name'] ?></td>
 			        <td><?= $location['time'] ?></td>		      				        			        
 			        <td><?= $location['weather'] ?></td>		      				        
-			        <td><?= $location['temp'] ?> F</td>		
+			        <td><?= $location['temperature'] ?> F</td>		
 	        
 			      </tr>
 <?php 			}?>

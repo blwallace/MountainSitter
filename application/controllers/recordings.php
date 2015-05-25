@@ -26,7 +26,7 @@ class Recordings extends CI_Controller {
 				'name'=>$document->current_observation->display_location->full,
 				'time'=>$document->current_observation->local_time_rfc822,				
 				'weather'=>$document->current_observation->weather,				
-				'temp'=>$document->current_observation->temp_f);
+				'temperature'=>$document->current_observation->temp_f);
 			array_push($temp,$log);
 		}
 
@@ -52,7 +52,7 @@ class Recordings extends CI_Controller {
 				'name'=>$document->current_observation->display_location->full,
 				'time'=>$document->current_observation->local_time_rfc822,
 				'weather'=>$document->current_observation->weather,				
-				'temp'=>$document->current_observation->temp_f);
+				'temperature'=>$document->current_observation->temp_f);
 			array_push($temp,$log);
 		}
 
