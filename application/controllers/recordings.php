@@ -21,7 +21,9 @@ class Recordings extends CI_Controller {
 			$document = json_decode($json['document']);
 
 			$log = array(
-				'name'=>$document->current_observation->display_location->full);
+				'name'=>$document->current_observation->display_location->full,
+				'weather'=>$document->current_observation->weather,				
+				'temp'=>$document->current_observation->temp_f);
 			array_push($temp,$log);
 		}
 

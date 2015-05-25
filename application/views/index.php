@@ -42,7 +42,7 @@
 				<h1>Welcome!</h1>
 
 				<h4><a href="/sites">See All Sites</a></h4>
-					
+				<h4><a href="/recordings">See All Recordings</a></h4>
 			</div>
 		</div>
 	</div>

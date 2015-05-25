@@ -9,7 +9,8 @@
 			    <thead>
 			      <tr>
 					<th>Document</th>
-
+					<th>Weather</th>
+					<th>Temp</th>
 			      </tr>
 			    </thead>
 			    <tbody>
@@ -17,7 +18,9 @@
 				foreach($locations as $location)
 				{?>		    
 			      <tr>
-			        <td><?= $location['name'] ?></td>			      	
+			        <td><?= $location['name'] ?></td>
+			        <td><?= $location['weather'] ?></td>		      				        
+			        <td><?= $location['temp'] ?> F</td>		
 	        
 			      </tr>
 <?php 			}?>
