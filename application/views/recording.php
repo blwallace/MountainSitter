@@ -9,6 +9,7 @@
 			    <thead>
 			      <tr>
 					<th>Document</th>
+					<th>Time</th>
 					<th>Weather</th>
 					<th>Temp</th>
 			      </tr>
