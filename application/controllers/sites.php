@@ -17,7 +17,6 @@ class Sites extends CI_Controller {
 		$data = array(
 			'sites' => $sites);
 
-
 		$this->load->view('index');
 		$this->load->view('sites',$data);
 	}
@@ -60,7 +59,7 @@ class Sites extends CI_Controller {
 				$city = $contents->current_observation->display_location->city;
 				$country = $contents->current_observation->display_location->country;
 				$country_iso3166 = $contents->current_observation->display_location->country_iso3166;
-				$elevation = $contents->current_observation->display_location->elevation;
+				$elevation = $contents->current_observation->observation_location->elevation;
 				$full = $contents->current_observation->display_location->full;
 				$latitude = $contents->current_observation->display_location->latitude;
 				$longitude = $contents->current_observation->display_location->longitude;			

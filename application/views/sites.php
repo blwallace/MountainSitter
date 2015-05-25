@@ -4,9 +4,6 @@
 			<div class="intro">
 			<h4><a href="/sites/add_document">Update Sites Documents</a></h4>
 
-			<h4><a href="/sites">View All Sites</a></h4>			
-			<h4><a href="/sites/deleted">View Deleted Sites</a></h4>
-
 
 			<table class="table table-striped">
 			    <thead>
@@ -37,12 +34,12 @@
 					//Updates sites table.
 					if ($site['deactivated_at'] == '')
 					{
-			       		echo  "<td>Recording</td>";
+			       		echo  "<td><a href='/recordings/show/" . $site['id'] . "'>Recording</a></td>";
 					}
 
 					else 
 					{
-			       		echo  "<td>Not Recording</td>";
+			       		echo  "<td><a href='/recordings/show/" . $site['id'] . "'>Not Recording</a></td>";
 					}
 
 

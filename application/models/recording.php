@@ -8,6 +8,13 @@ class Recording extends CI_Model {
 		return $this->db->query($query)->result_array();
 	}	
 
+	public function get_document_id($id)
+	{
+		$query = "SELECT * FROM documents where site_id = ?";
+		$values = array($id);
+		return $this->db->query($query,$values)->result_array();
+	}
+
 
 	// public function add_site($data)
 	// {
