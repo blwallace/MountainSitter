@@ -17,6 +17,7 @@ class Sites extends CI_Controller {
 		$data = array(
 			'sites' => $sites);
 
+
 		$this->load->view('index');
 		$this->load->view('sites',$data);
 	}

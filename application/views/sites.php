@@ -3,6 +3,8 @@
 		<div class="col-xs-12">
 			<div class="intro">
 			<h4><a href="/sites/add_document">Update Sites Documents</a></h4>
+
+			<h4><a href="/sites">View All Sites</a></h4>			
 			<h4><a href="/sites/deleted">View Deleted Sites</a></h4>
 
 
