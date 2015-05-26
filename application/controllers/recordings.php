@@ -9,7 +9,6 @@ class Recordings extends CI_Controller {
 		$this->output->enable_profiler();
 		$this->load->model('site');
 		$this->load->model('recording');
-
 	}
 
 	public function index()
