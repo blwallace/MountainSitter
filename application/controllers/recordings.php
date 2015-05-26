@@ -9,6 +9,8 @@ class Recordings extends CI_Controller {
 		$this->output->enable_profiler();
 		$this->load->model('site');
 		$this->load->model('recording');
+		$this->load->view('footer');
+
 	}
 
 	public function index()
@@ -34,7 +36,7 @@ class Recordings extends CI_Controller {
 
 		$this->load->view('index');
 		$this->load->view('recording',$data);
-		// $this->load->view('document',$data);
+		$this->load->view('footer');
 	}
 
 	public function show($id)
@@ -60,6 +62,7 @@ class Recordings extends CI_Controller {
 
 		$this->load->view('index');
 		$this->load->view('recording',$data);		
+		$this->load->view('footer');
 	}
 
 }
