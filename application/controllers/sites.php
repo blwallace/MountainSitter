@@ -111,7 +111,7 @@ class Sites extends CI_Controller {
 	public function add_document()
 	{
 		// $sites = $this->site->get_sites();
-		$sites = $this->site->get_active_sites();
+		$sites = $this->site->get_active_sites_limited();
 
 
 		foreach ($sites as $site)
@@ -119,18 +119,19 @@ class Sites extends CI_Controller {
 			$station_id = $site['site_name'];
 			$json_string = file_get_contents("http://api.wunderground.com/api/de7ee2cef1184d4c/conditions/q/pws:" .$station_id.".json");
 			$this->site->add_document($json_string,$site['id']);
+			$this->site->update_refresh($site['id']);
 		}
 
 		$documents = $this->site->get_documents();
 
-		$temp = array();
-        foreach ($documents as $document)
-        {
-        	$contents = json_decode($document['document']);
-        	$content = $contents->current_observation->weather;
-        	$tempf = $contents->current_observation->temp_f;
-        	array_push($temp,"Conditions: " . $content . "--- Temp: ".$tempf);
-        }
+		// $temp = array();
+  //       foreach ($documents as $document)
+  //       {
+  //       	$contents = json_decode($document['document']);
+  //       	$content = $contents->current_observation->weather;
+  //       	$tempf = $contents->current_observation->temp_f;
+  //       	array_push($temp,"Conditions: " . $content . "--- Temp: ".$tempf);
+  //       }
 	}
 
 	public function deactivate($id)	

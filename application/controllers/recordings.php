@@ -44,6 +44,7 @@ class Recordings extends CI_Controller {
 		$documents = $this->recording->get_document_id($id);
 		// var_dump($documents);
 		$temp = array();
+		$d3_data = array();
 
 		foreach($documents as $json)
 		{
@@ -52,13 +53,25 @@ class Recordings extends CI_Controller {
 			$log = array(
 				'name'=>$document->current_observation->display_location->full,
 				'time'=>$document->current_observation->local_time_rfc822,
+				'epoch'=>$document->current_observation->observation_epoch,
 				'weather'=>$document->current_observation->weather,				
 				'temperature'=>$document->current_observation->temp_f);
 			array_push($temp,$log);
 		}
 
+		foreach($documents as $json)
+		{
+			$document = json_decode($json['document']);
+
+			$log = array(
+				$document->current_observation->observation_epoch,
+				$document->current_observation->temp_f);
+			array_push($d3_data,$log);
+		}		
+
 		$data = array(
-			'locations'=>$temp);
+			'locations'=>$temp,
+			'd3_datas'=>$d3_data);
 
 		$this->load->view('index');
 		$this->load->view('recording',$data);		
