@@ -10,6 +10,7 @@ class Main extends CI_Controller {
 
 	public function index()
 	{
+		// var_dump($this);
 		$this->load->view('index');
 		$this->load->view('footer');
 	}

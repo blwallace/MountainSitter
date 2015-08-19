@@ -37,6 +37,7 @@
 			<table class="table table-striped">
 			    <thead>
 			      <tr>
+			      	<th>ID</th>
 					<th>Document</th>
 					<th>Time</th>
 					<th>Weather</th>
@@ -48,6 +49,7 @@
 				foreach($locations as $location)
 				{?>		    
 			      <tr>
+			      	<td><?= $location['id'] ?></td>
 			        <td><?= $location['name'] ?></td>
 			        <td><?= $location['time'] ?></td>		      				        			        
 			        <td><?= $location['weather'] ?></td>		      				        

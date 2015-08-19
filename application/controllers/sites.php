@@ -113,13 +113,18 @@ class Sites extends CI_Controller {
 		// $sites = $this->site->get_sites();
 		$sites = $this->site->get_active_sites_limited();
 
-
 		foreach ($sites as $site)
 		{
 			$station_id = $site['site_name'];
 			$json_string = file_get_contents("http://api.wunderground.com/api/de7ee2cef1184d4c/conditions/q/pws:" .$station_id.".json");
-			$this->site->add_document($json_string,$site['id']);
-			$this->site->update_refresh($site['id']);
+
+			$json = json_decode($json_string);
+
+			if(array_key_exists('weather', $json->current_observation))
+				{
+				$this->site->add_document($json_string,$site['id']);
+				$this->site->update_refresh($site['id']);
+				}
 		}
 
 		$documents = $this->site->get_documents();
