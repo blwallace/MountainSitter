@@ -1,3 +1,24 @@
+
+
+
+//Live example from: https://gist.github.com/3589712
+//https://groups.google.com/forum/?fromgroups=#!searchin/d3-js/windhistory.com/d3-js/0fYBKF8mYvE/0VXPUCBBtXsJ
+//ksfo is taken from windhistory.com server
+
+//scroll to bottom to see how we call the drawBigWindrose function with the data
+
+
+//we don't have a selectedMonthControl so we just turn on all the months
+var months = [];
+for(var i = 0; i < 12; i++) {
+  months.push(true);
+}
+
+
+
+
+
+
 // This is the core Javascript code for http://windhistory.com/
 // I haven't done a full open source release, but I figured I'd put the most important
 // D3 code out there for people to learn from.   --nelson@monkey.org
@@ -58,13 +79,18 @@ function totalsToFrequencies(totals, speeds) {
 }
 
 // Filter input data, giving back frequencies for the selected month 
+
+//BW NOTES: Insert custom data here. totals and speed to use json format...
+// {degree:value}  the bigger the value the bigger the pie
+// {10:714, 20:721, .... , 360: 533}
+
 function rollupForMonths(d, months) {
     var totals = {}, speeds = {};
     for (var i = 10; i < 361; i += 10) { totals[""+i] = 0; speeds[""+i] = 0 }
     totals["null"] = 0; speeds["null"] = 0;
      
     for (var key in d.data) {
-        var s = key.split(":")
+        var s = key.split(":");
         if (s.length == 1) {
             var direction = s[0];
         } else {
@@ -79,6 +105,9 @@ function rollupForMonths(d, months) {
         // add in the average speed * count from this key
         speeds[direction] += d.data[key][0] * d.data[key][1];  
     }
+
+    console.log(totals);
+
     return totalsToFrequencies(totals, speeds);
 }
 
@@ -285,6 +314,7 @@ function drawBigWindrose(windroseData, container, captionText) {
         var radiusFunction = speedToRadiusScale;
         var tickLabel = function(d) { return "" + d + "kts"; }
     }
+
     // Circles representing chart ticks
     vis.append("svg:g")
         .attr("class", "axes")
@@ -315,7 +345,10 @@ function drawBigWindrose(windroseData, container, captionText) {
             return "translate(" + r + "," + p + ") rotate(" + d + ",0," + (r-p) + ")"})        
         .text(function(dir) { return dir; });
 
-    var rollup = rollupForMonths(windroseData, selectedMonthControl.selected());
+    //var rollup = rollupForMonths(windroseData, selectedMonthControl.selected());
+    var rollup = rollupForMonths(windroseData, months);
+
+  
     if (container == "#windrose") {
         drawComplexArcs(vis, rollup, speedToColor, speedText, windroseArcOptions, probArcTextT);
     } else {
@@ -339,9 +372,11 @@ var smallArcOptions = {
     from: 5,
     to: function(d) { return smallArcScale(d.p); }
 }
+    
 function plotSmallRose(parent, plotData) {
     var winds = [];
-    var months = selectedMonthControl.selected();
+    //var months = selectedMonthControl.selected();
+  
     // For every wind direction (note: skip plotData[0], winds calm)
     for (var dir = 1; dir < 13; dir++) {
         // Calculate average probability for all selected months
@@ -364,248 +399,15 @@ function plotSmallRose(parent, plotData) {
         .attr("r", smallArcOptions.from);
 }
 
-/** Map code **/
+  
+  
+  
+//need to reformat the data to get smallPlot to work, not sure how yet
+//var rollup = rollupForMonths(data, months);
+//var small = svg.append("g")
+//.attr("id", "small");
+//plotSmallRose(small, rollup)
+  
+  
 
-// Augment d3.geo with code that aids tiling data in Polymaps
-function installGeoTiler() {
-    // Temporary code from http://bl.ocks.org/900050 (gist 900050)
-    if (d3.geo.tiler) {
-        console.log("d3.geo.tiler defined: not using ours. Good luck!");
-    } else {
-        d3.geo.tiler = function() {
-          var tiler = {},
-              points = [],
-              projection = d3.geo.mercator().scale(1).translate([.5, .5]),
-              location = Object, // identity function
-              zoom = 8,
-              root = null;
 
-          function build(points, x, y, z) {
-            if (z >= zoom) return points.map(d3_geo_tilerData);
-            var i = -1,
-                n = points.length,
-                c = [[], [], [], []],
-                k = 1 << z++,
-                p;
-            while (++i < n) {
-              p = points[i];
-              var x1 = (p[0] * k - x) >= .5,
-                  y1 = (p[1] * k - y) >= .5;
-              c[x1 << 1 | y1].push(p);
-            }
-            x <<= 1;
-            y <<= 1;
-            return {
-              "0": c[0].length && build(c[0], x    , y    , z),
-              "1": c[1].length && build(c[1], x    , y + 1, z),
-              "2": c[2].length && build(c[2], x + 1, y    , z),
-              "3": c[3].length && build(c[3], x + 1, y + 1, z)
-            };
-          }
-
-          tiler.location = function(x) {
-            if (!arguments.length) return location;
-            location = x;
-            root = null; // reset
-            return tiler;
-          };
-
-          tiler.projection = function(x) {
-            if (!arguments.length) return projection;
-            projection = x;
-            root = null; // reset
-            return tiler;
-          };
-
-          tiler.zoom = function(x) {
-            if (!arguments.length) return zoom;
-            zoom = x;
-            root = null; // reset
-            return tiler;
-          };
-
-          tiler.points = function(x) {
-            if (!arguments.length) return points;
-            points = x;
-            root = null; // reset
-            return tiler;
-          };
-
-          tiler.tile = function(x, y, z) {
-            var results = [];
-
-            // Lazy initialization…
-            // Project the points to normalized coordinates in [0, 1].
-            if (!root) {
-              root = build(points.map(function(d, i) {
-                var point = projection(location.call(tiler, d, i));
-                point.data = d;
-                return point;
-              }), 0, 0, 0);
-            }
-
-            function search(node, x0, y0, z0) {
-              if (!node) return;
-              if (z0 < z) {
-                var k = Math.pow(2, z0 - z),
-                    x1 = (x * k - x0) >= .5,
-                    y1 = (y * k - y0) >= .5;
-                search(node[x1 << 1 | y1], x0 << 1 | x1, y0 << 1 | y1, z0 + 1);
-              } else {
-                accumulate(node);
-              }
-            }
-
-            function accumulate(node) {
-              if (node.length) {
-                for (var i = -1, n = node.length; ++i < n;) {
-                  results.push(node[i]);
-                }
-              } else {
-                for (var i = -1; ++i < 4;) {
-                  if (node[i]) accumulate(node[i]);
-                }
-              }
-            }
-
-            search(root, 0, 0, 0);
-            return results;
-          };
-
-          return tiler;
-        };
-
-        function d3_geo_tilerData(d) {
-          return d.data;
-        }
-    }
-}
-
-// A custom Polymaps layer for the wind roses.
-// Copied and modified from Mike Bostock's gist 900050 http://bl.ocks.org/900050
-function stations(url, callback) {
-  installGeoTiler();
-  // Create the tiler, for organizing our points into tile boundaries.
-  var tiler = d3.geo.tiler()
-      .zoom(12)
-      .location(function(d) { return d.value; });
-
-  // Create the base layer object, using our tile factory.
-  var layer = org.polymaps.layer(load);
-  layer.id("stations");
-
-  // Load the station data. When the data comes back, reload.
-  d3.json(url, function(json) {
-    callback(json);
-    tiler.points(d3.entries(json));
-    layer.reload();
-  });
-
-  // Custom tile implementation.
-  function load(tile, projection) {
-    projection = projection(tile).locationPoint;
-    
-    // Add an svg:g for each station.
-    var g = d3.select(tile.element = po.svg("g")).selectAll("g")
-        .data(tiler.tile(tile.column, tile.row, tile.zoom))
-      .enter()
-        .append("svg:a")
-            .attr("xlink:href", function(d) { return "station.html?" + d.key })
-            .attr("target", "_blank")
-        .append("svg:g")
-            .attr("class", "station")
-            .attr("transform", transform);
-
-    // svg:title for each station, visible on hover
-    g.append("svg:title").text(function(d) { return d.value[2] });
-
-    // Draw the mark for each station. Just a dot if zoomed out too far.
-    if (tile.zoom > 6) {
-        g.each(function(d) {
-          plotSmallRose(d3.select(this), d.value[3]);
-        });
-    } else {
-        g.append("svg:circle").attr("r", 5).attr("class", "alone");
-    }
-
-    function transform(d) {
-      d = projection({lon: d.value[0], lat: d.value[1]});
-      return "translate(" + d.x + "," + d.y + ")";
-    }
-  }
-
-  return layer;
-}
-
-// Global state for the map view
-var stationDb = null;
-var map = null;
-var po = (typeof org != "undefined") ? org.polymaps : null;
-var selectedMonthControl = null;
-
-// Top level function for making the map view
-function makeMap() {
-    var mapLocationInUrl = location.hash != "";
-
-    // Construct our map
-    map = po.map()
-        .container(document.getElementById("map").appendChild(po.svg("svg")))
-        .add(po.dblclick())
-        .add(po.drag())
-        .add(po.arrow())
-        .add(po.wheel().smooth(false))
-        .add(po.hash())
-        .add(po.touch().rotate(false));   
-
-    // Handle users who come with no location specified in the URL
-    if (!mapLocationInUrl) {
-        // Center the map on North America
-        map.center({lon: -95, lat: 36});
-        map.zoom(4);
-
-        // Fire off a geolocation request to center the user
-        if (!!navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                function (pos) { 
-                    map.center({lon: pos.coords.longitude, lat: pos.coords.latitude});
-                    map.zoom(8);
-                },
-                function (code, message) { },
-                { maximumAge: 1000*60*60, timeout: 1000*10, enableHighAccuracy: false});
-        }
-    }            
-    
-    // Add a basemap: OpenStreetMap rendered with Mapnik
-    map.add(po.image().id("osmMapnik")
-              .url(po.url("http://{S}tile.openstreetmap.org/{Z}/{X}/{Y}.png")
-                     .hosts(["a.", "b.", "c.", ""])));
-    map.zoomRange([2,12]);
-        
-    // Add a layer for all the stations
-    var stationLayer = stations("data/stations-md.json", function(d) { stationDb = d; });
-    map.add(stationLayer);
-
-    // Add the compass
-    map.add(po.compass().pan("none"));
-
-    // Add the month control
-    selectedMonthControl = new monthControl(stationLayer.reload);
-    selectedMonthControl.install("#monthControlDiv");
-}
-
-// Search for station: center and zoom
-function searchMap(form) {
-    var q = document.forms[0].elements[0].value;
-    q = q.toUpperCase();
-    var s = stationDb[q];
-    if (s) {
-        map.center({lon: s[0], lat: s[1]});
-        if (map.zoom() < 8) {
-            map.zoom(8);
-        }
-    } else {
-        document.forms[0].elements[0].style["background-color"]="#d55";
-        setTimeout(function () { document.forms[0].elements[0].style.removeProperty("background-color"); },
-                   150);
-    }
-}
