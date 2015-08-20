@@ -53,8 +53,10 @@ class Recordings extends CI_Controller {
 
 		foreach ($documents as $json) {
 			$document = json_decode($json['document']);
+			$degree_map[round($document->current_observation->wind_degrees,-1)] += 1;
 
-			$degree_map[round($document->current_observation->wind_degrees,-1)] += $document->current_observation->wind_mph;
+			// This add the mpg to the total.  can be biased if wind blows really hard in one day
+			// $degree_map[round($document->current_observation->wind_degrees,-1)] += $document->current_observation->wind_mph;
 		}
 
 		$degree_map[360] += $degree_map[0];

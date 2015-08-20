@@ -109,8 +109,8 @@ function rollupForMonths(d, months) {
 
     console.log(speeds);
     // bypass
-    // return totalsToFrequencies(d, speeds);
-    return totalsToFrequencies(totals, speeds);
+    return totalsToFrequencies(d, speeds);
+    // return totalsToFrequencies(totals, speeds);
 }
 
 /** Code for big visualization **/
@@ -173,7 +173,7 @@ function drawComplexArcs(parent, plotData, colorFunc, arcTextFunc, complexArcOpt
         .data(plotData.dirs)
       .enter().append("svg:path")
         .attr("d", arc(complexArcOptions))
-        .style("fill", colorFunc)
+        .style("fill", "blue")
         .attr("transform", "translate(" + visWidth + "," + visWidth + ")")
       .append("svg:title")
         .text(function(d) { return d.d + "\u00b0 " + (100*d.p).toFixed(1) + "% " + d.s.toFixed(0) + "kts" });
@@ -190,18 +190,18 @@ function drawComplexArcs(parent, plotData, colorFunc, arcTextFunc, complexArcOpt
             .attr("transform", arcTextT);
     }
 
-    // Add the calm wind probability in the center
-    var cw = parent.append("svg:g").attr("class", "calmwind")
-        .selectAll("text")
-        .data([plotData.calm.p])
-        .enter();
-    cw.append("svg:text")
-        .attr("transform", "translate(" + visWidth + "," + visWidth + ")")
-        .text(function(d) { return Math.round(d * 100) + "%" });
-    cw.append("svg:text")
-        .attr("transform", "translate(" + visWidth + "," + (visWidth+14) + ")")
-        .attr("class", "calmcaption")
-        .text("calm");
+    // // Add the calm wind probability in the center
+    // var cw = parent.append("svg:g").attr("class", "calmwind")
+    //     .selectAll("text")
+    //     .data([plotData.calm.p])
+    //     .enter();
+    // cw.append("svg:text")
+    //     .attr("transform", "translate(" + visWidth + "," + visWidth + ")")
+    //     .text(function(d) { return Math.round(d * 100) + "%" });
+    // cw.append("svg:text")
+    //     .attr("transform", "translate(" + visWidth + "," + (visWidth+14) + ")")
+    //     .attr("class", "calmcaption")
+    //     .text("calm");
 }
 
 // Update the page text after the data has been loaded
