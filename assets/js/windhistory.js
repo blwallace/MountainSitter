@@ -106,7 +106,7 @@ function rollupForMonths(d, months) {
         speeds[direction] += d.data[key][0] * d.data[key][1];  
     }
 
-    console.log(totals);
+    //console.log(totals);
 
     return totalsToFrequencies(totals, speeds);
 }
