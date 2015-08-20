@@ -103,13 +103,18 @@ function totalsToFrequencies(totals, speeds) {
 }
 
 // Filter input data, giving back frequencies for the selected month 
+
+//BW NOTES: Insert custom data here. totals and speed to use json format...
+// {degree:value}  the bigger the value the bigger the pie
+// {10:714, 20:721, .... , 360: 533}
+
 function rollupForMonths(d, months) {
     var totals = {}, speeds = {};
     for (var i = 10; i < 361; i += 10) { totals[""+i] = 0; speeds[""+i] = 0 }
     totals["null"] = 0; speeds["null"] = 0;
      
     for (var key in d.data) {
-        var s = key.split(":")
+        var s = key.split(":");
         if (s.length == 1) {
             var direction = s[0];
         } else {
@@ -124,6 +129,9 @@ function rollupForMonths(d, months) {
         // add in the average speed * count from this key
         speeds[direction] += d.data[key][0] * d.data[key][1];  
     }
+
+    console.log(totals);
+
     return totalsToFrequencies(totals, speeds);
 }
 
@@ -478,7 +486,7 @@ svg.selectAll("text.arctext").style( { "font-size": "9px" })
       				<button type="submit" class="btn btn-success">Submit</button>
       			</form>
 			</div>
-		<svg width="5000" height="5000">
+		<svg width="2000" height="650">
 		</svg>	
 		</div>
 	</div>
