@@ -75,6 +75,7 @@ function totalsToFrequencies(totals, speeds) {
             ret.dirs.push({ d: parseInt(dir), p: freq, s: avgspeed });
         }
     }
+
     return ret;
 }
 
@@ -106,8 +107,9 @@ function rollupForMonths(d, months) {
         speeds[direction] += d.data[key][0] * d.data[key][1];  
     }
 
-    //console.log(totals);
-
+    console.log(speeds);
+    // bypass
+    // return totalsToFrequencies(d, speeds);
     return totalsToFrequencies(totals, speeds);
 }
 
