@@ -6,8 +6,8 @@
 <script src="/assets/js/jquery_v2_1_3.js"></script>
 <script src="/assets/js/d3_v3_5_5.js"></script>
 <script src="/assets/js/windhistory.js"></script>
-
-
+<link rel="stylesheet" href="/assets/css/jquery-ui.css">
+<script src="/assets/js/jquery-ui.js"></script>
 </head>
 
 
@@ -39,8 +39,8 @@
       				<button type="submit" class="btn btn-success">Submit</button>
       			</form>
 			</div>
-		<svg width="2000" height="650">
-		</svg>	
+<!-- 		<svg width="2000" height="650">
+		</svg>	 -->
 		</div>
 	</div>
 </div>

@@ -45,25 +45,40 @@ class Recordings extends CI_Controller {
 		$temp = array();
 		$d3_data = array();
 		$degree_map = array();
+		$speed_map= array();
 
 		for($i = 0; $i<370; $i += 10)
 		{
 			$degree_map[$i] = 0;
+			$speed_map[$i] = 0;
 		}
 
+
+		//creating objects with tallied wind data
 		foreach ($documents as $json) {
 			$document = json_decode($json['document']);
-			$degree_map[round($document->current_observation->wind_degrees,-1)] += 1;
 
-			// This add the mpg to the total.  can be biased if wind blows really hard in one day
-			// $degree_map[round($document->current_observation->wind_degrees,-1)] += $document->current_observation->wind_mph;
+			if(!array_key_exists('error', $document->response))
+			{			
+				// if($document->current_observation->wind_degrees == 0)
+				// {
+				// 	var_dump($document);
+				// }
+
+				$degree_map[round($document->current_observation->wind_degrees,-1)] += 1;
+				// This add the mpg to the total.  can be biased if wind blows really hard in one day
+				$speed_map[round($document->current_observation->wind_degrees,-1)] += $document->current_observation->wind_mph;
+			}
 		}
 
-		$degree_map[360] += $degree_map[0];
+		//hack to get 0 degrees to work
 		unset($degree_map[0]);
+		unset($speed_map[0]);
 
-		$json_map = json_encode($degree_map);
-		var_dump($json_map);
+		$map = array($degree_map,$speed_map);
+		$json_map = json_encode($map);
+
+		// var_dump($json_map);
 		foreach($documents as $json)
 		{
 			$document = json_decode($json['document']);
@@ -108,6 +123,14 @@ class Recordings extends CI_Controller {
 		$this->load->view('index');
 		$this->load->view('recording',$data);		
 		$this->load->view('footer');
+	}
+
+	public function dates()
+	{
+		$start = $this->input->post('startdate');
+		$end = $this->input->post('enddate');		
+
+		var_dump($start);
 	}
 
 }
