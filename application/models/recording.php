@@ -15,6 +15,13 @@ class Recording extends CI_Model {
 		return $this->db->query($query,$values)->result_array();
 	}
 
+	public function get_document_id_date($id,$startdate,$enddate)
+	{
+		$query = "SELECT * FROM documents where site_id = ? and created_at > ? AND created_at < ?";
+		$values = array($id,$startdate,$enddate);
+		return $this->db->query($query,$values)->result_array();
+	}	
+
 
 	// public function add_site($data)
 	// {

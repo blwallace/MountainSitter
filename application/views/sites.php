@@ -1,5 +1,16 @@
 <div class = "container">
 	<div class="row">
+			<div class="col-xs-12">
+				<div class="mountain">
+					<form action='/sites/add' method='post'>
+						<p>Enter Mountain to Load</p>
+	        			<input type="text" placeholder="ENTER PWS" name = 'site' class="form-control">
+	      				<button type="submit" class="btn btn-success">Submit</button>
+	      			</form>
+				</div>
+			</div>
+		</div>
+	<div class="row">
 		<div class="col-xs-12">
 			<div class="intro">
 			<h4><a href="/sites/add_document">Update Sites Documents</a></h4>
