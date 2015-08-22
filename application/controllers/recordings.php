@@ -139,6 +139,7 @@ class Recordings extends CI_Controller {
 
 		$this->load->view('index');
 		$this->load->view('graph_script',$data);
+		$this->load->view('navbar');
 		$this->load->view('recording',$data);	
 		$this->load->view('windrose',$data);
 		// $this->load->view('site_list',$data);	

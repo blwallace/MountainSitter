@@ -19,6 +19,7 @@ class Sites extends CI_Controller {
 			'sites' => $sites);
 
 		$this->load->view('index');
+		$this->load->view('navbar');
 		$this->load->view('sites',$data);
 		$this->load->view('footer');
 	}

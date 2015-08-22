@@ -8,7 +8,7 @@
 			<form action="/recordings/show/<?= $id ?>" method="post">		
 				<p>Start Date: <input type="text" id="startdate" name="startdate"></p>
 				<p>End Date: <input type="text" id="enddate" name='enddate'></p>
-				<input type="submit" name='action' value='Submit' class="form-control">
+				<button type="submit" name = 'action' class="btn btn-default">Submit</button>
 			</form>				
 			
 		</div>

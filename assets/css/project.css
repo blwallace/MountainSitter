@@ -18,14 +18,18 @@
 
 .jumbotron {
     position: relative;
-    background: rgba(50, 54, 54, 0.1);
+    background: rgba(50, 54, 54, 0.7);
     width: 100%;
-    height: 100%;
-    background-size: cover;
     overflow: hidden;
 }
 
-.jumbotron h1{
+.jumbotron h1,h3{
 	text-align: center;
 	color: white;
+}
+
+#registration  {
+	text-align: center;
+	color: white;
+	background-color: black;
 }
