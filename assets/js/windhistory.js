@@ -14,7 +14,15 @@ for(var i = 0; i < 12; i++) {
   months.push(true);
 }
 
-
+var delay = (function()
+    {
+        var timer = 0;
+        return function(callback, ms)
+            {
+             clearTimeout (timer);
+             timer = setTimeout(callback, ms);
+            };
+    })();
 
 
 
@@ -89,7 +97,7 @@ function rollupForMonths(d, months) {
     var totals = {}, speeds = {};
     for (var i = 10; i < 361; i += 10) { totals[""+i] = 0; speeds[""+i] = 0 }
     totals["null"] = 0; speeds["null"] = 0;
-     
+
     for (var key in d.data) {
         var s = key.split(":");
         if (s.length == 1) {

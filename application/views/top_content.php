@@ -21,7 +21,7 @@
 			<div class="col-xs-12">
 				<div class="intro">
 					<h1>MOUNTAIN SITTER</h1>
-          <h3>SIT ON MY NORTH FACE</h3>  
+          <h3></h3>  
 				</div>
 			</div>
 		</div>
@@ -45,7 +45,7 @@
       <button type="submit" class="btn btn-success">Sign in</button>
       </form>
 
-      <!-- <h3>Registration</h3>
+<!--       <h3>Registration</h3>
       <form action='/users/add' method='post'>
         <input type='text' name='email' class="form-control" placeholder="Email">
         <input type='text' name='alias' class="form-control" placeholder="Alias">

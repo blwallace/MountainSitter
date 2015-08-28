@@ -5,9 +5,10 @@
 			<div class="col-xs-12">
 				<div class="mountain">
 					<form action='/sites/add' method='post'>
-						<p>Enter Mountain to Load</p>
+						<h4>Add New Mountain</h4>
 	        			<input type="text" placeholder="ENTER PWS" name = 'site' class="form-control">
 	      				<button type="submit" class="btn btn-success">Submit</button>
+	      				<h4><a href="/sites/add_document">Force Update</a></h4>
 	      			</form>
 				</div>
 			</div>
@@ -15,9 +16,6 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="intro">
-			<h4><a href="/sites/add_document">Update Sites Documents</a></h4>
-
-
 			<table class="table table-striped">
 			    <thead>
 			      <tr>
@@ -47,12 +45,12 @@
 					//Updates sites table.
 					if ($site['deactivated_at'] == '')
 					{
-			       		echo  "<td><a href='/recordings/show/" . $site['id'] . "'>Recording</a></td>";
+			       		echo  "<td><a href='/recordings/search/" . $site['id'] . "'>Recording</a></td>";
 					}
 
 					else 
 					{
-			       		echo  "<td><a href='/recordings/show/" . $site['id'] . "'>Not Recording</a></td>";
+			       		echo  "<td><a href='/recordings/search/" . $site['id'] . "'>Not Recording</a></td>";
 					}
 
 
