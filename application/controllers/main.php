@@ -13,7 +13,7 @@ class Main extends CI_Controller {
 		// var_dump($this);
 		$this->load->view('index');
 		$this->load->view('top_content');
-		$this->load->view('footer');
+		$this->load->view('partials/footer');
 	}
 }
 
