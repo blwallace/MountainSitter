@@ -6,7 +6,7 @@ class Sites extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->output->enable_profiler();
+		// $this->output->enable_profiler();
 		$this->load->model('site');
 
 	}
@@ -21,7 +21,7 @@ class Sites extends CI_Controller {
 		$this->load->view('index');
 		$this->load->view('navbar');
 		$this->load->view('sites',$data);
-		$this->load->view('footer');
+		$this->load->view('partials/footer');
 	}
 
 	//Admin inputs wunderground PWS.  App adds site to maintained list.
