@@ -48,8 +48,15 @@
 		//get initial data  		
   		$.get('/recordings/find/<?= $id ?>',function(result){
   			//creates graph
-  			console.log(result);
-  			createGraphs(JSON.parse(result));
+  			var server_data = (JSON.parse(result));
+  			var table_data = server_data.table_data;
+
+  			delete server_data.table_data;
+
+  			var windrose_data = {server_data};
+  			console.log(windrose_data);
+
+  			createGraphs(windrose_data);
 			})  		
 
   		//updates infortion

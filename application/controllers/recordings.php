@@ -96,27 +96,41 @@ class Recordings extends CI_Controller {
 			$speed_map[$i] = 0;
 		}
 
-
+		$table_data = array();
 
 		//creating objects with tallied wind data
 		foreach ($documents as $json) {
 			$document = json_decode($json['document']);
-			// var_dump($document);
 
 			if(!array_key_exists('error', $document->response))
 			{			
-
 				$degree_map[round($document->current_observation->wind_degrees,-1)] += 1;
 				// This add the mpg to the total.  can be biased if wind blows really hard in one day
 				$speed_map[round($document->current_observation->wind_degrees,-1)] += $document->current_observation->wind_mph;
+
+			//creates an php object from the json data
+			$dump = array(
+				"time" => $document->current_observation->local_time_rfc822,
+				"weather" => $document->current_observation->weather,
+				"temp_f" => $document->current_observation->temp_f,
+				"wind_dir" => $document->current_observation->wind_dir,
+				"wind_mph" => $document->current_observation->wind_mph,
+				"wind_gust_mph" => $document->current_observation->wind_gust_mph,
+				);
 			}
+			array_push($table_data,$dump);
 		}
+
 
 		//hack to get 0 degrees to work
 		unset($degree_map[0]);
 		unset($speed_map[0]);
 
-		$map = array($degree_map,$speed_map);	
+		$map = array('degree_map'=>$degree_map,'speed_map'=>$speed_map,'table_data'=>$table_data);	
+
+		$map = array(array($degree_map,$speed_map),'table_data'=>$table_data);	
+
+
 		return $map;	
 	}
 
@@ -156,12 +170,22 @@ class Recordings extends CI_Controller {
 			$documents = $this->recording->get_document_id_date($id,$startdate,$enddate);
 		}
 
-		$results = json_encode($this->json($documents));
+		//creates wind data and ranks things
+		$results = $this->json($documents);
+
+		$results = json_encode($results);
 
 		$data = array(
 			'json'=> $results);
 
 		$this->load->view('partials/json',$data);
 	}
+
+	public function array_sort($array, $on, $order=SORT_ASC)
+	{
+	    $new_array = array();
+	    $sortable_array = array();
+	}
+	   
 }
 //end of main controller
