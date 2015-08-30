@@ -110,6 +110,8 @@ class Recordings extends CI_Controller {
 			'windhistory'=>$json_map,
 			'id'=>$id);
 
+		echo $json_map;
+
 		$this->load->view('index');
 		$this->load->view('navbar');	
 		$this->load->view('graph_script',$data);		
@@ -129,9 +131,12 @@ class Recordings extends CI_Controller {
 			$speed_map[$i] = 0;
 		}
 
+
+
 		//creating objects with tallied wind data
 		foreach ($documents as $json) {
 			$document = json_decode($json['document']);
+			// var_dump($document);
 
 			if(!array_key_exists('error', $document->response))
 			{			

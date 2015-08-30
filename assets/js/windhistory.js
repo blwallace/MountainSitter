@@ -184,7 +184,7 @@ function drawComplexArcs(parent, plotData, colorFunc, arcTextFunc, complexArcOpt
         .style("fill", "blue")
         .attr("transform", "translate(" + visWidth + "," + visWidth + ")")
       .append("svg:title")
-        .text(function(d) { return d.d + "\u00b0 " + (100*d.p).toFixed(1) + "% " + d.s.toFixed(0) + "kts" });
+        .text(function(d) { return d.d + "\u00b0 " + (100*d.p).toFixed(1) + "% " + d.s.toFixed(0) + "mph" });
         
     // Annotate the arcs with speed in text
     if (false) {    // disabled: just looks like chart junk
@@ -274,7 +274,7 @@ function updateComplexArcs(parent, plotData, colorFunc, arcTextFunc, complexArcO
 
     // Update the arcs' title tooltip
     parent.select("g.arcs").selectAll("path").select("title")
-        .text(function(d) { return d.d + "\u00b0 " + (100*d.p).toFixed(1) + "% " + d.s.toFixed(0) + "kts" });
+        .text(function(d) { return d.d + "\u00b0 " + (100*d.p).toFixed(1) + "% " + d.s.toFixed(0) + "mph" });
         
     // Update the calm wind probability in the center
     parent.select("g.calmwind").select("text")
@@ -322,7 +322,7 @@ function drawBigWindrose(windroseData, container, captionText) {
         var ticks = d3.range(5, 20.1, 5);
         var tickmarks = d3.range(5, 15.1, 5);
         var radiusFunction = speedToRadiusScale;
-        var tickLabel = function(d) { return "" + d + "kts"; }
+        var tickLabel = function(d) { return "" + d + "mph"; }
     }
 
     // Circles representing chart ticks
