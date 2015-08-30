@@ -44,41 +44,8 @@ class Recordings extends CI_Controller {
 		$degree_map = array();
 		$speed_map= array();
 
-		//recovering post data. might only exists if user refines search
-		if (isset($_POST['startdate']))
-		{
-			if ($_POST['startdate'] == '')
-			{
-			    $startdate = gmdate("Y-m-d H:i:s",strtotime("06/01/2015"));	
-			}		
-			else
-			{
-		    	$startdate = gmdate("Y-m-d H:i:s",strtotime($this->input->post('startdate')));
-			}
-
-			if ($_POST['enddate'] == '')
-			{
-			    $enddate = gmdate("Y-m-d H:i:s",strtotime("06/01/2115"));	
-			}		    
-			else
-			{					
-					$enddate = strtotime('+1 day', strtotime($this->input->post('enddate')));
-					$enddate = gmdate("Y-m-d H:i:s",$enddate);
-				
-			}
-		}
-
-		//queries to load documents
-		if(!isset($startdate))
-		{
-			$documents = $this->recording->get_document_id($id);
-		}
-		else
-		{
-			$documents = $this->recording->get_document_id_date($id,$startdate,$enddate);
-		}
-
-
+		//load additional site data
+		$documents = $this->recording->get_document_id_top($id);
 		$json_map = json_encode($this->json($documents));
 
 		//assigns value from db to json
@@ -104,13 +71,11 @@ class Recordings extends CI_Controller {
 				array_push($temp,$log);
 			}
 		}
-
+		
 		$data = array(
 			'locations'=>$temp,
-			'windhistory'=>$json_map,
 			'id'=>$id);
 
-		echo $json_map;
 
 		$this->load->view('index');
 		$this->load->view('navbar');	
