@@ -126,12 +126,43 @@ class Recordings extends CI_Controller {
 		unset($degree_map[0]);
 		unset($speed_map[0]);
 
-		$map = array('degree_map'=>$degree_map,'speed_map'=>$speed_map,'table_data'=>$table_data);	
+		//insert function to sort array
+		$table_sorted = $this->table_sort($table_data);
 
-		$map = array(array($degree_map,$speed_map),'table_data'=>$table_data);	
+
+		$map = array($degree_map,$speed_map,'table_data'=>$table_sorted);	
 
 
 		return $map;	
+	}
+
+	public function table_sort($table_data)
+	{
+		//NOTE: THIS FUNCTION IS VERY INEFFICIENT. CAN USE SOME REFACTORING
+		$temp = array($table_data[0]);
+
+		for($i=1; $i < count($table_data); $i++)
+		{
+			for($j=0; $j < count($temp); $j++)
+			{
+				//if new data is greater than wind speed, slice ahead 
+				if($table_data[$i]['wind_mph'] >= $temp[$j]['wind_mph'])
+				{
+					array_splice($temp, $j, 0, array($table_data[$i]));
+					$j = count($temp); 
+				}
+				//if it isn't bigger than anything, then just add it to the end of the arry
+				elseif($j == (count($temp) - 1))
+				{
+					array_push($temp,$table_data[$i]);
+					$j++;
+				}
+			}
+		}	
+
+
+		return array_slice($temp, 0, 9);	
+
 	}
 
 	public function find($id)

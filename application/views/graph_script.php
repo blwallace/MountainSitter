@@ -48,27 +48,32 @@
 		//get initial data  		
   		$.get('/recordings/find/<?= $id ?>',function(result){
   			//creates graph
-  			var server_data = (JSON.parse(result));
-  			var table_data = server_data.table_data;
+  			var server_data = (JSON.parse(result));			
+  			console.log(JSON.parse(result));
+  			createGraphs(JSON.parse(result));
 
-  			delete server_data.table_data;
-
-  			var windrose_data = {server_data};
-  			console.log(windrose_data);
-
-  			createGraphs(windrose_data);
-			})  		
+	        var trHTML = '';
+	        $.each(server_data.table_data, function (i, item) {
+	            trHTML += '<tr><td>' + item.wind_dir + '</td><td>' + item.time + '</td><td>' + item.wind_mph + '</td></tr>';
+	        });
+	        $('#table_windrose').append(trHTML); 			
+				})  		
 
   		//updates infortion
 		$('input').change(function(event) {
 		    event.stopPropagation();
 		    delay(function(){
-	  		$.post('/recordings/find/<?= $id ?>',$('form').serialize(),function(result){
-	  			console.log(result);
-	  			
+	  		$.post('/recordings/find/<?= $id ?>',$('form').serialize(),function(result){	  			
 	  			$("#windrose_frame").empty();
 	  			$("#speedrose_frame").empty();
+	  			$("#table_windrose").empty();
+
 	  			createGraphs(JSON.parse(result));
+		        var trHTML = '';
+		        $.each(JSON.parse(result).table_data, function (i, item) {
+		            trHTML += '<tr><td>' + item.wind_dir + '</td><td>' + item.time + '</td><td>' + item.wind_mph + '</td></tr>';
+		        });
+		        $('#table_windrose').append(trHTML); 	  			
 			})			    	
 		    }, 250 );
 		    return false;
