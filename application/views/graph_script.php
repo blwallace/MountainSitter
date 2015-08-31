@@ -10,13 +10,10 @@
 			            .attr("width", "100%")
 			            .attr("height", "100%");
 
-
 			//setup some containers to put the plots inside
 			var big = svg.append("g")
 			  .attr("id", "windrose")
 			  // .attr("transform", "translate(" + [35, 35] + ")");
-
-
 
 			drawBigWindrose(data, "#windrose", "caption")
 
@@ -30,8 +27,6 @@
 			svg.selectAll("text.arctext").style( { "font-size": "9px" })
 
 		}
-
-
 
 		//ajax script. initial page load
   		$.get('/recordings/search/<?= $id ?>',function(result){
@@ -49,12 +44,11 @@
   		$.get('/recordings/find/<?= $id ?>',function(result){
   			//creates graph
   			var server_data = (JSON.parse(result));			
-  			console.log(JSON.parse(result));
   			createGraphs(JSON.parse(result));
 
 	        var trHTML = '';
 	        $.each(server_data.table_data, function (i, item) {
-	            trHTML += '<tr><td>' + item.wind_dir + '</td><td>' + item.time + '</td><td>' + item.wind_mph + '</td></tr>';
+		            trHTML += '<tr><td>' + item.wind_dir + '</td><td>' + item.time + '</td><td>' + item.wind_mph + 'mph</td></tr>';
 	        });
 	        $('#table_windrose').append(trHTML); 			
 				})  		
@@ -71,8 +65,9 @@
 	  			createGraphs(JSON.parse(result));
 		        var trHTML = '';
 		        $.each(JSON.parse(result).table_data, function (i, item) {
-		            trHTML += '<tr><td>' + item.wind_dir + '</td><td>' + item.time + '</td><td>' + item.wind_mph + '</td></tr>';
+		            trHTML += '<tr><td>' + item.wind_dir + '</td><td>' + item.time + '</td><td>' + item.wind_mph + 'mph</td></tr>';
 		        });
+		        console.log(trHTML);
 		        $('#table_windrose').append(trHTML); 	  			
 			})			    	
 		    }, 250 );
