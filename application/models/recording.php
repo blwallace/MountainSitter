@@ -24,7 +24,7 @@ class Recording extends CI_Model {
 
 	public function get_document_id_top($id)
 	{
-		$query = "SELECT * FROM documents where site_id = ? LIMIT 1";
+		$query = "SELECT * FROM documents where site_id = ? ORDER BY id DESC LIMIT 1";
 		$values = array($id);
 		return $this->db->query($query,$values)->result_array();
 	}	

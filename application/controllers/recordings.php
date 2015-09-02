@@ -33,9 +33,9 @@ class Recordings extends CI_Controller {
 		$data = array(
 			'locations'=>$temp);
 
-		$this->load->view('index');
-		$this->load->view('recording',$data);
-		$this->load->view('footer');
+		$this->load->view('headers/index');
+		$this->load->view('contents/recording',$data);
+		$this->load->view('footers/footer');
 	}
 
 	public function search($id)
@@ -44,7 +44,7 @@ class Recordings extends CI_Controller {
 		$degree_map = array();
 		$speed_map= array();
 
-		//load additional site data
+		//load additional site data. only loads one line
 		$documents = $this->recording->get_document_id_top($id);
 		$json_map = json_encode($this->json($documents));
 
@@ -77,12 +77,13 @@ class Recordings extends CI_Controller {
 			'id'=>$id);
 
 
-		$this->load->view('index');
-		$this->load->view('navbar');	
-		$this->load->view('graph_script',$data);		
+		$this->load->view('headers/index');
+		$this->load->view('headers/navbar');	
+		$this->load->view('headers/graph_script',$data);		
 		$this->load->view('partials/site_info',$data);
-		$this->load->view('windrose');
-		$this->load->view('partials/footer');
+		$this->load->view('contents/weather_overview');
+		$this->load->view('contents/windrose');
+		$this->load->view('footers/footer');
 	}
 
 
@@ -145,21 +146,34 @@ class Recordings extends CI_Controller {
 		{
 			for($j=0; $j < count($temp); $j++)
 			{
-				//if new data is greater than wind speed, slice ahead 
-				if($table_data[$i]['wind_mph'] >= $temp[$j]['wind_mph'])
+				if(($table_data[$i]['wind_mph'] < $temp[$j]['wind_mph']) && ( (strtotime($table_data[$i]['time']) - strtotime($temp[$j]['time'])) < (60*60*6)))
 				{
-					array_splice($temp, $j, 0, array($table_data[$i]));
+					$j++;
+				}
+
+				//if new data is greater than wind speed, slice ahead 
+				elseif($table_data[$i]['wind_mph'] >= $temp[$j]['wind_mph'])
+				{
+					if( (strtotime($table_data[$i]['time']) - strtotime($temp[$j]['time'])) < (60*60*12))
+					{
+						$temp[$j] = $table_data[$i];
+					}
+					else
+					{
+						array_splice($temp, $j, 0, array($table_data[$i]));
+					}
+					
 					$j = count($temp); 
 				}
 				//if it isn't bigger than anything, then just add it to the end of the arry
 				elseif($j == (count($temp) - 1))
 				{
+
 					array_push($temp,$table_data[$i]);
 					$j++;
 				}
 			}
 		}	
-
 
 		return array_slice($temp, 0, 9);	
 
@@ -202,6 +216,8 @@ class Recordings extends CI_Controller {
 			$documents = $this->recording->get_document_id_date($id,$startdate,$enddate);
 		}
 
+
+
 		//creates wind data and ranks things
 		$results = $this->json($documents);
 
@@ -213,11 +229,6 @@ class Recordings extends CI_Controller {
 		$this->load->view('partials/json',$data);
 	}
 
-	public function array_sort($array, $on, $order=SORT_ASC)
-	{
-	    $new_array = array();
-	    $sortable_array = array();
-	}
 	   
 }
 //end of main controller

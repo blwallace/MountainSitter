@@ -18,10 +18,10 @@ class Sites extends CI_Controller {
 		$data = array(
 			'sites' => $sites);
 
-		$this->load->view('index');
-		$this->load->view('navbar');
-		$this->load->view('sites',$data);
-		$this->load->view('partials/footer');
+		$this->load->view('headers/index');
+		$this->load->view('headers/navbar');
+		$this->load->view('contents/sites',$data);
+		$this->load->view('footers/footer');
 	}
 
 	//Admin inputs wunderground PWS.  App adds site to maintained list.
