@@ -8,8 +8,16 @@
 				<table class="table table-striped">
 				      <tr>
 				      	<th>Site Name</th>
-				      	<th><?= $locations[0]['name'] ?></th>
+				      	<th><?= $locations[0]['name'] ?> (<?=$locations[0]['station_id']?>)</th>
 				      </tr>	
+				      <tr>
+				      	<td>Elevation</td>
+				      	<td><?= $locations[0]['elevation'] ?></td>	
+				      </tr>
+				      <tr>
+				      	<td>Distance to POI</td>
+				      	<td>5 Miles</td>
+				      </tr>
 				      <tr>
 				      	<td>Start Time</td>
 				      	<td><input type="text" id="startdate" name="startdate" placeholder = "<?= $locations[0]['time'] ?>"></td>

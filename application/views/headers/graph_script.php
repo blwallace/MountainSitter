@@ -48,7 +48,7 @@
 
 	        var trHTML = '';
 	        $.each(server_data.table_data, function (i, item) {
-		            trHTML += '<tr><td>' + item.wind_dir + '</td><td>' + item.time + '</td><td>' + item.wind_mph + 'mph</td></tr>';
+		            trHTML += '<tr><td>' + item.wind_dir + '</td><td>' + item.time + '</td><td>' + item.wind_mph + 'mph</td><td>' + item.wind_gust_mph + 'mph</td></tr>';
 	        });
 	        $('#table_windrose').append(trHTML); 			
 				})  		

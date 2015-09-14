@@ -64,7 +64,9 @@ class Recordings extends CI_Controller {
 					'time'=>$document->current_observation->local_time_rfc822,
 					'epoch'=>$document->current_observation->observation_epoch,
 					'weather'=>$document->current_observation->weather,				
-					'temperature'=>$document->current_observation->temp_f);
+					'temperature'=>$document->current_observation->temp_f,
+					'elevation'=>$document->current_observation->observation_location->elevation,
+					'station_id'=>$document->current_observation->station_id);
 
 
 				//load array info with wind info
@@ -102,8 +104,8 @@ class Recordings extends CI_Controller {
 		//creating objects with tallied wind data
 		foreach ($documents as $json) {
 			$document = json_decode($json['document']);
-
-			if(!array_key_exists('error', $document->response))
+			// if((!array_key_exists('error', $document->response)) )
+			if((!array_key_exists('error', $document->response)) && ($document->current_observation->wind_degrees >= 0))
 			{			
 				$degree_map[round($document->current_observation->wind_degrees,-1)] += 1;
 				// This add the mpg to the total.  can be biased if wind blows really hard in one day
@@ -118,10 +120,11 @@ class Recordings extends CI_Controller {
 				"wind_mph" => $document->current_observation->wind_mph,
 				"wind_gust_mph" => $document->current_observation->wind_gust_mph,
 				);
-			}
-			array_push($table_data,$dump);
-		}
 
+			array_push($table_data,$dump);
+			}
+			
+		}
 
 		//hack to get 0 degrees to work
 		unset($degree_map[0]);
@@ -130,9 +133,7 @@ class Recordings extends CI_Controller {
 		//insert function to sort array
 		$table_sorted = $this->table_sort($table_data);
 
-
 		$map = array($degree_map,$speed_map,'table_data'=>$table_sorted);	
-
 
 		return $map;	
 	}
