@@ -28,22 +28,19 @@
 
 		}
 
-		//ajax script. initial page load
-  		$.get('/recordings/search/<?= $id ?>',function(result){
-  			//appends json result to the graph_content id
-  			$('#graph_content').html(result);
-  			//create datepicker
-			$(function() {
+		$(function() {
 			    $( "#startdate" ).datepicker();
 			  });
 			$(function() {
 			    $( "#enddate" ).datepicker();
 			  });	
-			})
+
+		
 		//get initial data  		
   		$.get('/recordings/find/<?= $id ?>',function(result){
   			//creates graph
-  			var server_data = (JSON.parse(result));			
+  			var server_data = (JSON.parse(result));		
+
   			createGraphs(JSON.parse(result));
 
 	        var trHTML = '';
