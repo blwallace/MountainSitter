@@ -89,6 +89,56 @@ class Recordings extends CI_Controller {
 	}
 
 
+//this returns a json with all the information to load the page
+	public function find($id)
+	{
+		//recovering post data. might only exists if user refines search
+		if (isset($_POST['startdate']))
+		{
+			if ($_POST['startdate'] == '')
+			{
+			    $startdate = gmdate("Y-m-d H:i:s",strtotime("last week"));
+			}		
+			else
+			{
+		    	$startdate = gmdate("Y-m-d H:i:s",strtotime($this->input->post('startdate')));
+			}
+
+			if ($_POST['enddate'] == '')
+			{
+			    $enddate = gmdate("Y-m-d H:i:s",strtotime("06/01/2115"));	
+			}		    
+			else
+			{					
+					$enddate = strtotime('+1 day', strtotime($this->input->post('enddate')));
+					$enddate = gmdate("Y-m-d H:i:s",$enddate);
+				
+			}
+		}
+
+		//queries to load documents
+		if(!isset($startdate))
+		{
+			$startdate = gmdate("Y-m-d H:i:s",strtotime("last week"));	
+			$enddate = gmdate("Y-m-d H:i:s",strtotime("06/01/2115"));		
+			$documents = $this->recording->get_document_id_date($id,$startdate,$enddate);		}
+		else
+		{
+			$documents = $this->recording->get_document_id_date($id,$startdate,$enddate);
+		}
+
+
+		//creates wind data and ranks things
+		$results = $this->json($documents);
+
+		$results = json_encode($results);
+
+		$data = array(
+			'json'=> $results);
+
+		$this->load->view('partials/json',$data);
+	}
+
 	//converts output from database to json objects for d3 map
 	public function json($documents)
 	{
@@ -138,6 +188,8 @@ class Recordings extends CI_Controller {
 		return $map;	
 	}
 
+
+	//ranks highest wind speeds
 	public function table_sort($table_data)
 	{
 		//NOTE: THIS FUNCTION IS VERY INEFFICIENT. CAN USE SOME REFACTORING
@@ -180,55 +232,6 @@ class Recordings extends CI_Controller {
 
 	}
 
-	public function find($id)
-	{
-		//recovering post data. might only exists if user refines search
-		if (isset($_POST['startdate']))
-		{
-			if ($_POST['startdate'] == '')
-			{
-			    $startdate = gmdate("Y-m-d H:i:s",strtotime("last week"));
-			}		
-			else
-			{
-		    	$startdate = gmdate("Y-m-d H:i:s",strtotime($this->input->post('startdate')));
-			}
-
-			if ($_POST['enddate'] == '')
-			{
-			    $enddate = gmdate("Y-m-d H:i:s",strtotime("06/01/2115"));	
-			}		    
-			else
-			{					
-					$enddate = strtotime('+1 day', strtotime($this->input->post('enddate')));
-					$enddate = gmdate("Y-m-d H:i:s",$enddate);
-				
-			}
-		}
-
-		//queries to load documents
-		if(!isset($startdate))
-		{
-			$startdate = gmdate("Y-m-d H:i:s",strtotime("last week"));	
-			$enddate = gmdate("Y-m-d H:i:s",strtotime("06/01/2115"));		
-			$documents = $this->recording->get_document_id_date($id,$startdate,$enddate);		}
-		else
-		{
-			$documents = $this->recording->get_document_id_date($id,$startdate,$enddate);
-		}
-
-
-
-		//creates wind data and ranks things
-		$results = $this->json($documents);
-
-		$results = json_encode($results);
-
-		$data = array(
-			'json'=> $results);
-
-		$this->load->view('partials/json',$data);
-	}
 
 	   
 }
