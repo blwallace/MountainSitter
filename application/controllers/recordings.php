@@ -6,7 +6,7 @@ class Recordings extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		// $this->output->enable_profiler();
+		$this->output->enable_profiler();
 		$this->load->model('site');
 		$this->load->model('recording');	
 	}
@@ -174,7 +174,6 @@ class Recordings extends CI_Controller {
 			}
 			
 		}
-		// var_dump($table_data);
 		//hack to get 0 degrees to work
 		unset($degree_map[0]);
 		unset($speed_map[0]);
@@ -234,7 +233,6 @@ class Recordings extends CI_Controller {
 
 	public function table_sort_all_weather($table_data)
 	{
-
 		$temp1 = array(
 			"tempf_high" => $table_data[0]['temp_f'],
 			"tempf_low" => $table_data[0]['temp_f'],
@@ -248,65 +246,62 @@ class Recordings extends CI_Controller {
 		$temp = array(
 			$date => $temp1);
 
-		//double for loop.  looks for the highest temp
+		//double for loop
 		for($i=1; $i < count($table_data); $i++)
 				{
-					foreach($temp as $key => $value)
-					{
-						if ($key != date("F d, Y", strtotime($table_data[$i]['time'])))
+					//date of new array
+					$date = date("F d, Y", strtotime($table_data[$i]['time']));
+
+						if (!$this->date_exist($temp,$date))
 						{
-							$date = date("F d, Y", strtotime($table_data[$i]['time']));
-							$temp[$date] = array();
+							//if high temp is higher than recorded, replace and then move on
+							if($table_data[$i]['temp_f'] >= $temp[$date]['tempf_high'])
+							{
+								//replace
+								$temp[$date]['tempf_high'] = $table_data[$i]['temp_f'];
+							}		
+							//if low temp is lower than recorded, replace and then move on
+							if($table_data[$i]['temp_f'] <= $temp[$date]['tempf_low'])
+							{
+								//replace
+								$temp[$date]['tempf_low'] = $table_data[$i]['temp_f'];
+							}													
 						}
-						// if ($key == date("F d, Y", strtotime($table_data[$i]['time'])))
-						// {
-						// 	//if high temp is higher than recorded, replace and then move on
-						// 	if($table_data[$i]['temp_f'] >= $temp[$j]['tempf_high'])
-						// 	{
-						// 		//replace
-						// 		$temp[$j]['tempf_high'] = $table_data[$i]['temp_f'];
-						// 	}							
-						// }
 
-					}
+						else
+						{
+							$temp[$date] = array(
+										"tempf_high" => $table_data[$i]['temp_f'],
+										"tempf_low" => $table_data[$i]['temp_f'],
+										"windspeed_high" => $table_data[$i]['wind_mph'],
+										// "conditions" => $table_data[$i]['conditions'],
+										// "precipitation" => $table_data[$i]['precip'],
+											);	
+
+						}						
+					
 
 
-
-					// for($j=0; $j < count($temp); $j++)
-					// {
-					// 	//tempf_fight
-					// 	//if high temp is higher than recorded, replace and then move on
-					// 	if($table_data[$i]['temp_f'] >= $temp[$j]['tempf_high'])
-					// 	{
-					// 		//replace
-					// 		$temp[$j]['tempf_high'] = $table_data[$i]['temp_f'];
-					// 	}
-
-					// 	//tempf_low
-					// 	//if high temp is lower than recorded, replace and then move on
-					// 	if($table_data[$i]['temp_f'] <= $temp[$j]['tempf_low'])
-					// 	{
-					// 		//replace
-					// 		$temp[$j]['tempf_low'] = $table_data[$i]['temp_f'];
-					// 	}
-
-					// 	//windspeed_high
-					// 	//if high temp is higher than recorded, replace and then move on
-					// 	if($table_data[$i]['wind_mph'] >= $temp[$j]['windspeed_high'])
-					// 	{
-					// 		//replace
-					// 		$temp[$j]['windspeed_high'] = $table_data[$i]['wind_mph'];
-					// 	}
-
-					// 	$j++;
-						
-					// }
 				}	
 
 		return $temp;
 
 	}
 
+	public function date_exist($array, $date)
+	{
+		$bool = true;
+
+		foreach($array as $key => $value)
+		{
+			if($key == $date)
+			{	
+				$bool = false;
+			}
+		}
+
+		return $bool;
+	}
 	   
 }
 //end of main controller
