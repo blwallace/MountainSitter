@@ -126,8 +126,6 @@ class Recordings extends CI_Controller {
 		{
 			$documents = $this->recording->get_document_id_date($id,$startdate,$enddate);
 		}
-
-
 		//creates wind data and ranks things
 		$results = $this->json($documents);
 
@@ -169,25 +167,28 @@ class Recordings extends CI_Controller {
 				"wind_dir" => $document->current_observation->wind_dir,
 				"wind_mph" => $document->current_observation->wind_mph,
 				"wind_gust_mph" => $document->current_observation->wind_gust_mph,
+				// "conditions" => $document->current_observation->
 				);
 
 			array_push($table_data,$dump);
 			}
 			
 		}
-
+		// var_dump($table_data);
 		//hack to get 0 degrees to work
 		unset($degree_map[0]);
 		unset($speed_map[0]);
 
 		//insert function to sort array
 		$table_sorted = $this->table_sort($table_data);
+		$daily_table_sorted = $this->table_sort_all_weather($table_data);
+
+		var_dump($daily_table_sorted);
 
 		$map = array($degree_map,$speed_map,'table_data'=>$table_sorted);	
 
 		return $map;	
 	}
-
 
 	//ranks highest wind speeds
 	public function table_sort($table_data)
@@ -221,7 +222,6 @@ class Recordings extends CI_Controller {
 				//if it isn't bigger than anything, then just add it to the end of the arry
 				elseif($j == (count($temp) - 1))
 				{
-
 					array_push($temp,$table_data[$i]);
 					$j++;
 				}
@@ -232,6 +232,80 @@ class Recordings extends CI_Controller {
 
 	}
 
+	public function table_sort_all_weather($table_data)
+	{
+
+		$temp1 = array(
+			"tempf_high" => $table_data[0]['temp_f'],
+			"tempf_low" => $table_data[0]['temp_f'],
+			"windspeed_high" => $table_data[0]['wind_mph'],
+			// "conditions" => $table_data[0]['conditions'],
+			// "precipitation" => $table_data[0]['precip'],
+				);
+
+		$date = date("F d, Y", strtotime($table_data[0]['time']));
+
+		$temp = array(
+			$date => $temp1);
+
+		//double for loop.  looks for the highest temp
+		for($i=1; $i < count($table_data); $i++)
+				{
+					foreach($temp as $key => $value)
+					{
+						if ($key != date("F d, Y", strtotime($table_data[$i]['time'])))
+						{
+							$date = date("F d, Y", strtotime($table_data[$i]['time']));
+							$temp[$date] = array();
+						}
+						// if ($key == date("F d, Y", strtotime($table_data[$i]['time'])))
+						// {
+						// 	//if high temp is higher than recorded, replace and then move on
+						// 	if($table_data[$i]['temp_f'] >= $temp[$j]['tempf_high'])
+						// 	{
+						// 		//replace
+						// 		$temp[$j]['tempf_high'] = $table_data[$i]['temp_f'];
+						// 	}							
+						// }
+
+					}
+
+
+
+					// for($j=0; $j < count($temp); $j++)
+					// {
+					// 	//tempf_fight
+					// 	//if high temp is higher than recorded, replace and then move on
+					// 	if($table_data[$i]['temp_f'] >= $temp[$j]['tempf_high'])
+					// 	{
+					// 		//replace
+					// 		$temp[$j]['tempf_high'] = $table_data[$i]['temp_f'];
+					// 	}
+
+					// 	//tempf_low
+					// 	//if high temp is lower than recorded, replace and then move on
+					// 	if($table_data[$i]['temp_f'] <= $temp[$j]['tempf_low'])
+					// 	{
+					// 		//replace
+					// 		$temp[$j]['tempf_low'] = $table_data[$i]['temp_f'];
+					// 	}
+
+					// 	//windspeed_high
+					// 	//if high temp is higher than recorded, replace and then move on
+					// 	if($table_data[$i]['wind_mph'] >= $temp[$j]['windspeed_high'])
+					// 	{
+					// 		//replace
+					// 		$temp[$j]['windspeed_high'] = $table_data[$i]['wind_mph'];
+					// 	}
+
+					// 	$j++;
+						
+					// }
+				}	
+
+		return $temp;
+
+	}
 
 	   
 }
