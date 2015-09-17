@@ -37,27 +37,3 @@ function ajax_formatting_table(server_data)
 	$('#weather_summary').append(twHTML);		
 }
 
-function date_update_ajax()
-{
-			    delay(function(){
-			  		$.post('/recordings/find/<?= $id ?>',$('form').serialize(),function(result){	
-
-			  			//clear out existing graphs and tables  			
-			  			$("#windrose_frame").empty();
-			  			$("#speedrose_frame").empty();
-			  			$("#table_windrose").empty();
-						$("#weather_summary").empty();	  			
-
-						//format ajax result
-			  			var server_data = (JSON.parse(result));	
-
-			  			//creates windrose
-			  			createGraphs(server_data);
-
-			  			//creates tables
-			  			ajax_formatting_table(server_data);
-			  			
-
-					})			    	
-				    }, 250 )
-}

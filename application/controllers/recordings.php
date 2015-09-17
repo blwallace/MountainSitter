@@ -183,7 +183,7 @@ class Recordings extends CI_Controller {
 
 		//insert function to sort array
 		$table_sorted = $this->table_sort($table_data);
-		$daily_table_sorted = $this->table_sort_all_weather($table_data);
+		$daily_table_sorted = array_reverse($this->table_sort_all_weather($table_data));
 
 		// var_dump($daily_table_sorted);
 

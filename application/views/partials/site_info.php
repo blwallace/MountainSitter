@@ -16,11 +16,11 @@
 				      </tr>
 				      <tr>
 				      	<td>Start Time</td>
-				      	<td><input type="text" id="startdate" name="startdate" placeholder = "<?= $locations[0]['time'] ?>"></td>
+				      	<td><input type="text" id="startdate" name="startdate" placeholder = "<?= date("D m/d/y",strtotime('now') - (60*60*24*6)) ?>"></td>
 				      </tr>			      		
 				      <tr>
 				      	<td>End Time</td>
-				      	<td><input type="text" id="enddate" name='enddate' placeholder = "<?= $locations[count($locations)-1]['time'] ?>"></td>
+				      	<td><input type="text" id="enddate" name='enddate' placeholder = "<?= date("D m/d/y",strtotime('now')) ?>"></td>
 				      </tr>		
 				      <tr>
 				      	<td>Forecast</td>
@@ -28,7 +28,6 @@
 				      </tr>
 
 				</table>		      	      
-				<button type="submit" name = 'action' class="btn btn-default">Submit</button>
 			</form>							
 		</div>
 		<div class = "col-md-4" id="map">
