@@ -185,8 +185,6 @@ class Recordings extends CI_Controller {
 		$table_sorted = $this->table_sort($table_data);
 		$daily_table_sorted = array_reverse($this->table_sort_all_weather($table_data));
 
-		// var_dump($daily_table_sorted);
-
 		$map = array($degree_map,$speed_map,'table_data'=>$table_sorted, 'table_data_days' => $daily_table_sorted);	
 
 		return $map;	
@@ -230,7 +228,30 @@ class Recordings extends CI_Controller {
 			}
 		}	
 
-		return array_slice($temp, 0, 9);	
+		$sorted_arr = array_slice($temp, 0, 9);
+		$final_array = array();
+
+		foreach($sorted_arr as $key=> $value)
+		{
+			$date = $this->date_localizer($value['time']);
+			$time = $date['time'];
+			$date = $date['date'];
+
+			$temp_arr = array(
+						'date' =>$date,
+						'time' =>$time,
+						'weather' =>$value['weather'],
+						'temp_f' =>$value['temp_f'],
+						'wind_dir' =>$value['wind_dir'],
+						'wind_mph' =>$value['wind_mph'],
+						'wind_gust_mph' =>$value['wind_gust_mph']
+							);
+
+			array_push($final_array,$temp_arr);
+		}
+
+
+		return $final_array;	
 
 	}
 
@@ -245,6 +266,7 @@ class Recordings extends CI_Controller {
 				);
 
 		$date = $this->date_localizer($table_data[0]['time']);
+		$date = $date['date'];
 
 		$temp = array(
 			$date => $temp1);
@@ -255,6 +277,7 @@ class Recordings extends CI_Controller {
 
 					//date of new array
 					$date = $this->date_localizer($table_data[$i]['time']);
+					$date = $date['date'];					
 
 					// echo $date . ":" . $table_data[$i]['wind_mph'] . "</br>";
 
@@ -331,8 +354,38 @@ class Recordings extends CI_Controller {
 
 		$local_time = strtotime($base_date) + ($zone * 60 * 60);
 
-		return date("D m/d/y",$local_time);
+		$temp = array(
+			'date' => date("D m/d/y",$local_time),
+			'time' => date("H:i",$local_time),
+			'date_time'=> date("D m/d/y H:i",$local_time)
+			);
+
+		// return date("D m/d/y",$local_time);
+		return $temp;
 	}
+
+	// public function date_localizer_time($base_date)
+	// {
+
+	// 	$date = substr($base_date, 0, -2);
+
+	// 	$zone1 = substr($date, -1, 1);
+
+	// 	$zone2 = 10 * substr($date, -2, 1);
+
+	// 	$mult = substr($date, -3, 1);
+
+	// 	$zone = $zone1 + $zone2;
+
+	// 	if($mult == "-")
+	// 	{
+	// 		$zone = $zone * -1;
+	// 	}
+
+	// 	$local_time = strtotime($base_date) + ($zone * 60 * 60);
+
+	// 	return date("H:i",$local_time);
+	// }	
 	   
 }
 //end of main controller
