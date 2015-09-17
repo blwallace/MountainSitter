@@ -3,8 +3,8 @@
 		<div class="col-md-10">
 			<div class="intro">
 
-				<table class="table table-striped">
-				    <thead>
+				<table class="table table-striped" id = "weather_summary">
+				    <!-- <thead>
 				      <tr><th>Date</th>
 				      	<th>Sept 1, 2015</th>
 						<th>Aug 21, 2015</th>
@@ -39,7 +39,7 @@
 				        <td>0 in</td>
 				      </tr>
 	
-				    </tbody>
+				    </tbody> -->
 				  </table>
 
 			</div>

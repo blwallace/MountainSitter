@@ -6,7 +6,7 @@ class Recordings extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->output->enable_profiler();
+		// $this->output->enable_profiler();
 		$this->load->model('site');
 		$this->load->model('recording');	
 	}
@@ -182,9 +182,9 @@ class Recordings extends CI_Controller {
 		$table_sorted = $this->table_sort($table_data);
 		$daily_table_sorted = $this->table_sort_all_weather($table_data);
 
-		var_dump($daily_table_sorted);
+		// var_dump($daily_table_sorted);
 
-		$map = array($degree_map,$speed_map,'table_data'=>$table_sorted);	
+		$map = array($degree_map,$speed_map,'table_data'=>$table_sorted, 'table_data_days' => $daily_table_sorted);	
 
 		return $map;	
 	}
@@ -241,7 +241,7 @@ class Recordings extends CI_Controller {
 			// "precipitation" => $table_data[0]['precip'],
 				);
 
-		$date = date("F d, Y", strtotime($table_data[0]['time']));
+		$date = $this->date_localizer($table_data[0]['time']);
 
 		$temp = array(
 			$date => $temp1);
@@ -249,8 +249,11 @@ class Recordings extends CI_Controller {
 		//double for loop
 		for($i=1; $i < count($table_data); $i++)
 				{
+
 					//date of new array
-					$date = date("F d, Y", strtotime($table_data[$i]['time']));
+					$date = $this->date_localizer($table_data[$i]['time']);
+
+					// echo $date . ":" . $table_data[$i]['wind_mph'] . "</br>";
 
 						if (!$this->date_exist($temp,$date))
 						{
@@ -265,7 +268,13 @@ class Recordings extends CI_Controller {
 							{
 								//replace
 								$temp[$date]['tempf_low'] = $table_data[$i]['temp_f'];
-							}													
+							}		
+							//record highest wind speed
+							if($table_data[$i]['wind_mph'] >= $temp[$date]['windspeed_high'])
+							{
+								//replace
+								$temp[$date]['windspeed_high'] = $table_data[$i]['wind_mph'];
+							}																			
 						}
 
 						else
@@ -277,11 +286,7 @@ class Recordings extends CI_Controller {
 										// "conditions" => $table_data[$i]['conditions'],
 										// "precipitation" => $table_data[$i]['precip'],
 											);	
-
 						}						
-					
-
-
 				}	
 
 		return $temp;
@@ -301,6 +306,29 @@ class Recordings extends CI_Controller {
 		}
 
 		return $bool;
+	}
+	//converts full date format to a local Month, DD, YYYY
+	public function date_localizer($base_date)
+	{
+
+		$date = substr($base_date, 0, -2);
+
+		$zone1 = substr($date, -1, 1);
+
+		$zone2 = 10 * substr($date, -2, 1);
+
+		$mult = substr($date, -3, 1);
+
+		$zone = $zone1 + $zone2;
+
+		if($mult == "-")
+		{
+			$zone = $zone * -1;
+		}
+
+		$local_time = strtotime($base_date) + ($zone * 60 * 60);
+
+		return date("D m/d/y",$local_time);
 	}
 	   
 }

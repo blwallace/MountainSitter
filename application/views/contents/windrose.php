@@ -11,6 +11,7 @@
 					<th>Date</th>
 					<th>Avg</th>
 					<th>Gust</th>
+				</tr>
 			</table>
 		</div>
 
