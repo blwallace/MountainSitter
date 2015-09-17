@@ -21,7 +21,12 @@
 				      <tr>
 				      	<td>End Time</td>
 				      	<td><input type="text" id="enddate" name='enddate' placeholder = "<?= $locations[count($locations)-1]['time'] ?>"></td>
-				      </tr>				      
+				      </tr>		
+				      <tr>
+				      	<td>Forecast</td>
+				      	<td><a href="wunderground.com">Click to Open in New Tab</a></td>
+				      </tr>
+
 				</table>		      	      
 				<button type="submit" name = 'action' class="btn btn-default">Submit</button>
 			</form>							

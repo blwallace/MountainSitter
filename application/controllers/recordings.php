@@ -100,7 +100,7 @@ class Recordings extends CI_Controller {
 		{
 			if ($_POST['startdate'] == '')
 			{
-			    $startdate = gmdate("Y-m-d H:i:s",strtotime("last week"));
+			    $startdate = gmdate("Y-m-d H:i:s",strtotime($this->input->post('enddate')) - (60*60*24*6));
 			}		
 			else
 			{
@@ -109,7 +109,7 @@ class Recordings extends CI_Controller {
 
 			if ($_POST['enddate'] == '')
 			{
-			    $enddate = gmdate("Y-m-d H:i:s",strtotime("06/01/2115"));	
+			    $enddate = gmdate("Y-m-d H:i:s",strtotime($startdate) + (60*60*24*6));	
 			}		    
 			else
 			{					
@@ -122,7 +122,7 @@ class Recordings extends CI_Controller {
 		//queries to load documents
 		if(!isset($startdate))
 		{
-			$startdate = gmdate("Y-m-d H:i:s",strtotime("last week"));	
+			$startdate = gmdate("Y-m-d H:i:s",strtotime("now") - (60*60*24*6));	
 			$enddate = gmdate("Y-m-d H:i:s",strtotime("06/01/2115"));		
 			$documents = $this->recording->get_document_id_date($id,$startdate,$enddate);		}
 		else

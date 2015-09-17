@@ -130,14 +130,6 @@ class Sites extends CI_Controller {
 
 		$documents = $this->site->get_documents();
 
-		// $temp = array();
-  //       foreach ($documents as $document)
-  //       {
-  //       	$contents = json_decode($document['document']);
-  //       	$content = $contents->current_observation->weather;
-  //       	$tempf = $contents->current_observation->temp_f;
-  //       	array_push($temp,"Conditions: " . $content . "--- Temp: ".$tempf);
-  //       }
 	}
 
 	public function deactivate($id)	
