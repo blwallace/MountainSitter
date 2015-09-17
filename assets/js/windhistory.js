@@ -50,8 +50,6 @@ function createGraphs(data){
 
         }
 
-
-
 // This is the core Javascript code for http://windhistory.com/
 // I haven't done a full open source release, but I figured I'd put the most important
 // D3 code out there for people to learn from.   --nelson@monkey.org

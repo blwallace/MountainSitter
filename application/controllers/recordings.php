@@ -66,7 +66,10 @@ class Recordings extends CI_Controller {
 					'weather'=>$document->current_observation->weather,				
 					'temperature'=>$document->current_observation->temp_f,
 					'elevation'=>$document->current_observation->observation_location->elevation,
-					'station_id'=>$document->current_observation->station_id);
+					'station_id'=>$document->current_observation->station_id,
+					'latitude' => $document->current_observation->display_location->latitude,
+					'longitude' => $document->current_observation->display_location->longitude						
+					);
 
 
 				//load array info with wind info
