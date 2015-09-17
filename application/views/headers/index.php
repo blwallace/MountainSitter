@@ -9,5 +9,6 @@
 <script src="/assets/js/windhistory.js"></script>
 <link rel="stylesheet" href="/assets/css/jquery-ui.css">
 <script src="/assets/js/jquery-ui.js"></script>
+<script src="/assets/js/custom.js"></script>
 </head>
 
