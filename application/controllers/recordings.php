@@ -362,30 +362,7 @@ class Recordings extends CI_Controller {
 
 		// return date("D m/d/y",$local_time);
 		return $temp;
-	}
-
-	// public function date_localizer_time($base_date)
-	// {
-
-	// 	$date = substr($base_date, 0, -2);
-
-	// 	$zone1 = substr($date, -1, 1);
-
-	// 	$zone2 = 10 * substr($date, -2, 1);
-
-	// 	$mult = substr($date, -3, 1);
-
-	// 	$zone = $zone1 + $zone2;
-
-	// 	if($mult == "-")
-	// 	{
-	// 		$zone = $zone * -1;
-	// 	}
-
-	// 	$local_time = strtotime($base_date) + ($zone * 60 * 60);
-
-	// 	return date("H:i",$local_time);
-	// }	
+	}	
 	   
 }
 //end of main controller
