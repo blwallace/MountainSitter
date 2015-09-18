@@ -1,10 +1,10 @@
 function ajax_formatting_table(server_data)
 {
 	//creates max wind speed table
-	var trHTML = '<tr><th></th><th>Date</th><th>Time</th><th>Wind Speed</th><th>Wind Gust</th></tr>';	
+	var trHTML = '<tr><th>:↔:</th><th>Speed</th><th>Gust</th><th>Date</th><th>Time</th></tr>';	
 	$.each(server_data.table_data, function (i, item) 
 	{
-		trHTML += '<tr><td>' + item.wind_dir + '</td><td>' + item.date + '</td><td>' +item.time + '</td><td>' + item.wind_mph + 'mph</td><td>' + item.wind_gust_mph + 'mph</td></tr>';
+		trHTML += '<tr><td>' + item.wind_dir + '</td><td>' + item.wind_mph + ' mph</td><td>' + item.wind_gust_mph + ' mph</td><td>' + item.date + '</td><td>' +item.time + '</td></tr>';
 	});
 	$('#table_windrose').append(trHTML); 	
 

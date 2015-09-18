@@ -1,3 +1,48 @@
+<script>
+$(document).ready(function(){
+
+  		//updates infortion
+		$('#tags').keyup(function(event) {	
+		    event.stopPropagation();
+		    delay(function(){
+		    	var queryVal = $('#tags').val();
+		    	var website = "http://autocomplete.wunderground.com/aq?query=" + queryVal + "&format=jsonp&c=US";
+				$.ajax({
+			        type: "GET",
+			        url: website,
+			        async:true,
+ 					jsonp: 'cb',			        
+    				jsonpCallback: 'callback',
+			        dataType : 'jsonp',   //you may use jsonp for cross origin request
+			        crossDomain:true,
+			        success: function(data, status, xhr) {
+			            availableTags =[];
+			            console.log(data);
+						for (var key in data.RESULTS) {
+						   if (data.RESULTS.hasOwnProperty(key)) {
+						       var obj = data.RESULTS[key];
+						            if (prop = 'name')
+						            {
+						            	availableTags.push(obj[prop])
+						            }						       
+						        for (var prop in obj) {
+						          if(obj.hasOwnProperty(prop)){
+						          }
+						       }
+						    }
+						}
+					    $( "#tags" ).autocomplete({
+					      source: availableTags
+					    });						
+			        }
+			    });
+		    }, 25 );
+		    return false;
+		})	
+
+
+});
+</script>
 
 
 <div class = "container">
@@ -11,6 +56,10 @@
 	      				<h4><a href="/sites/add_document">Force Update</a></h4>
 	      			</form>
 				</div>
+				<div class="ui-widget">
+				<label for="tags">Tags: </label>
+				<input id="tags">
+				</div>	
 			</div>
 		</div>
 	<div class="row">
