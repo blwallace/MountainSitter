@@ -43,6 +43,7 @@ $(document).ready(function(){
 	$('#site_search').submit(function(event){
 			var lat = 0;
 			var lon = 0;
+			var name = '';
 	    	var queryVal = $('#tags').val();
 	    	var website = "http://autocomplete.wunderground.com/aq?query=" + queryVal + "&format=jsonp&c=US";
 			$.ajax({
@@ -55,13 +56,12 @@ $(document).ready(function(){
 		        crossDomain:true,
 		        success: function(data, status, xhr) {
 		            availableTags =[];
-		            console.log(data);
 					for (var key in data.RESULTS) {
 					   if (data.RESULTS.hasOwnProperty(key)) {
 					       var obj = data.RESULTS[key];
 					            if (prop = 'name')
 					            {
-					            	availableTags.push(obj[prop]);
+					            	name = obj[prop];
 					            }	
 					            if (prop = 'lat')
 					            {
@@ -79,7 +79,21 @@ $(document).ready(function(){
 					    }
 					}	
 
-					console.log(lat + lon);
+					// console.log(lat + lon + name);
+
+					$.ajax({
+						type: "POST",
+						url: "/sites/locate",
+						data: {
+								'name': name,
+								'lat': lat,
+								'lon': lon
+								},
+						success: function(data, status, xhr){
+							console.log(data);
+						}
+
+					})
 
 		        }
 		    });		  

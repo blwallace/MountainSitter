@@ -95,6 +95,55 @@ class Sites extends CI_Controller {
 
 	}
 
+	public function locate()
+	{
+		// $results = $this->input->post(null,true);
+
+		// $name = $results['name'];
+		// $lat = $results['lat'];
+		// $lon = $results['lon'];
+
+		$name_search = 'Yosemite National Park, California';
+		$lat_search = 37.750000;
+		$lon_search = -119.589996;
+
+		$name_site = '';
+		$lat_site = 0;
+		$lon_site = 0;
+
+		$temp_arr = array();
+
+		$sites = $this->site->get_sites();
+
+		for($i=0;$i<count($sites);$i++)
+		{
+			$id = $sites[$i]['id'];
+			$name_site = $sites[$i]['full'];
+			$lat_site = $sites[$i]['latitude'];
+			$lon_site = $sites[$i]['longitude'];
+
+			$distance = $this->distance($lat_search, $lon_search, $lat_site, $lon_site, "M");
+
+			$dis_arr = array(
+				'id'=>$id,
+				'distance'=>$distance,
+				'location'=>$name_site);
+
+			array_push($temp_arr,$dis_arr);
+		}
+
+		$temp_arr2 = $this->table_sort($temp_arr);
+
+		var_dump($temp_arr2);
+
+		// var_dump($sites);
+
+		// $data = array(
+		// 	'json'=> $lon);
+
+		// $this->load->view('partials/json',$data);
+	}
+
 	public function json_validation($contents)
 	{
 		//valid json response
@@ -170,6 +219,76 @@ class Sites extends CI_Controller {
 		redirect('/sites/deleted');
 	}
 
-}
+	public function distance($lat1, $lon1, $lat2, $lon2, $unit) 
+	{
 
+	  $theta = $lon1 - $lon2;
+	  $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+	  $dist = acos($dist);
+	  $dist = rad2deg($dist);
+	  $miles = $dist * 60 * 1.1515;
+	  $unit = strtoupper($unit);
+
+	  if ($unit == "K") {
+	    return ($miles * 1.609344);
+	  } else if ($unit == "N") {
+	      return ($miles * 0.8684);
+	    } else {
+	        return round($miles);
+	      }
+	}
+
+
+	public function table_sort($table_data)
+	{
+		//NOTE: THIS FUNCTION IS VERY INEFFICIENT. CAN USE SOME REFACTORING
+		$temp = array($table_data[0]);
+
+		for($i=1; $i < count($table_data); $i++)
+		{
+			for($j=0; $j < count($temp); $j++)
+			{
+				//if new data is greater than wind speed, slice ahead 
+				if($table_data[$i]['distance'] <= $temp[$j]['distance'])
+				{
+					array_splice($temp, $j, 0, array($table_data[$i]));
+
+					$j = count($temp); 
+				}
+				//if it isn't bigger than anything, then just add it to the end of the arry
+				elseif($j == (count($temp) - 1))
+				{
+					array_push($temp,$table_data[$i]);
+					$j = count($temp);
+				}
+			}
+		}	
+
+		// $sorted_arr = array_slice($temp, 0, 9);
+		// $final_array = array();
+
+		// foreach($sorted_arr as $key=> $value)
+		// {
+		// 	$date = $this->date_localizer($value['time']);
+		// 	$time = $date['time'];
+		// 	$date = $date['date'];
+
+		// 	$temp_arr = array(
+		// 				'date' =>$date,
+		// 				'time' =>$time,
+		// 				'weather' =>$value['weather'],
+		// 				'temp_f' =>$value['temp_f'],
+		// 				'wind_dir' =>$value['wind_dir'],
+		// 				'wind_mph' =>$value['wind_mph'],
+		// 				'wind_gust_mph' =>$value['wind_gust_mph']
+		// 					);
+
+		// 	array_push($final_array,$temp_arr);
+		// }
+
+
+		return $temp;	
+
+	}
+}	
 //end of main controller
