@@ -1,6 +1,7 @@
 .content{
 	margin-top: 60px;
 }
+
 .navbar-text{
 	margin:8px 35px 5px 15px;
 }
@@ -18,15 +19,20 @@
 
 .jumbotron {
     position: relative;
-    background: rgba(50, 54, 54, 0.7);
+    background: rgba(0, 0, 0, 0.01);
     width: 100%;
     overflow: hidden;
 }
 
-.jumbotron h1,h3{
+.jumbotron h1,h3,a,h2{
 	text-align: center;
-	color: white;
+	text-decoration:none;
 }
+
+.jumbotron a:hover{
+    text-decoration:none;
+    color: white;
+}	
 
 #registration  {
 	text-align: center;
@@ -35,3 +41,12 @@
 }
 
  #map { height: 50%; }
+
+ .intro_class{
+ 	color:white;
+ }
+
+ .intro_class a{
+ 	color:white;
+ 	text-decoration:underline;
+ }

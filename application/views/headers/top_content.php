@@ -20,17 +20,24 @@
 
 			<div class="col-xs-12">
 				<div class="intro">
-					<h1>MOUNTAIN SITTER</h1>
+					<h1><a href="sites" class="intro_class">CAMPSITTER</a></h1>
           <h3></h3>  
 				</div>
 			</div>
 		</div>
+    <div class="row">
+      <div class="col-xs-12">
+        <h2 class="intro_class"><a href="sites" class="intro_class">ENTER</a> | <a href="sites" class="intro_class">SEARCH</a> <input type='text'></h2>
+      </div>
+    </div>
 	</div>
 </div>	
 <div class="container">
   <div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4" id = "registration">
+    <div class="col-md-3"></div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-3">
 
       <h3><?php 
         echo $this->session->flashdata('login_error');
@@ -38,12 +45,13 @@
          ?>
       </h3>
 
-      <h3>Login</h3>
+
+<!--       <h3>Login</h3>
       <form action='/users/login' method='post'>
         <input type="text" placeholder="Email" name = 'email' class="form-control">
         <input type="password" placeholder="Password" name = 'password' class="form-control">
       <button type="submit" class="btn btn-success">Sign in</button>
-      </form>
+      </form> -->
 
 <!--       <h3>Registration</h3>
       <form action='/users/add' method='post'>
@@ -55,5 +63,5 @@
         <button type="submit" class="btn btn-success">Register</button>
       </form> -->
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-md-3"></div>
   </div>

@@ -1,25 +1,25 @@
 <?php
 
-$base_date = "Mon, 07 Sep 2015 20:24:01 -0700";
+function distance($lat1, $lon1, $lat2, $lon2, $unit) {
 
-$date = substr($base_date, 0, -2);
+  $theta = $lon1 - $lon2;
+  $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+  $dist = acos($dist);
+  $dist = rad2deg($dist);
+  $miles = $dist * 60 * 1.1515;
+  $unit = strtoupper($unit);
 
-$zone1 = substr($date, -1, 1);
-
-$zone2 = 10 * substr($date, -2, 1);
-
-$mult = substr($date, -3, 1);
-
-$zone = $zone1 + $zone2;
-
-if($mult == "-")
-{
-	$zone = $zone * -1;
+  if ($unit == "K") {
+    return ($miles * 1.609344);
+  } else if ($unit == "N") {
+      return ($miles * 0.8684);
+    } else {
+        return $miles;
+      }
 }
 
-$local_time = strtotime($base_date) + ($zone * 60 * 60);
-
-echo date("F d, Y",$local_time);
-
+echo distance(32.9697, -96.80322, 29.46786, -98.53506, "M") . " Miles<br>";
+echo distance(32.9697, -96.80322, 29.46786, -98.53506, "K") . " Kilometers<br>";
+echo distance(32.9697, -96.80322, 29.46786, -98.53506, "N") . " Nautical Miles<br>";
 ?>
 

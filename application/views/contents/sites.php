@@ -1,45 +1,90 @@
 <script>
 $(document).ready(function(){
 
-  		//updates infortion
-		$('#tags').keyup(function(event) {	
-		    event.stopPropagation();
-		    delay(function(){
-		    	var queryVal = $('#tags').val();
-		    	var website = "http://autocomplete.wunderground.com/aq?query=" + queryVal + "&format=jsonp&c=US";
-				$.ajax({
-			        type: "GET",
-			        url: website,
-			        async:true,
- 					jsonp: 'cb',			        
-    				jsonpCallback: 'callback',
-			        dataType : 'jsonp',   //you may use jsonp for cross origin request
-			        crossDomain:true,
-			        success: function(data, status, xhr) {
-			            availableTags =[];
-			            console.log(data);
-						for (var key in data.RESULTS) {
-						   if (data.RESULTS.hasOwnProperty(key)) {
-						       var obj = data.RESULTS[key];
-						            if (prop = 'name')
-						            {
-						            	availableTags.push(obj[prop])
-						            }						       
-						        for (var prop in obj) {
-						          if(obj.hasOwnProperty(prop)){
-						          }
-						       }
-						    }
-						}
-					    $( "#tags" ).autocomplete({
-					      source: availableTags
-					    });						
-			        }
-			    });
-		    }, 25 );
-		    return false;
-		})	
+		//updates infortion
+	$('#tags').keyup(function(event) {	
+	    event.stopPropagation();
+	    delay(function(){
+	    	var queryVal = $('#tags').val();
+	    	var website = "http://autocomplete.wunderground.com/aq?query=" + queryVal + "&format=jsonp&c=US";
+			$.ajax({
+		        type: "GET",
+		        url: website,
+		        async:true,
+					jsonp: 'cb',			        
+				jsonpCallback: 'callback',
+		        dataType : 'jsonp',   //you may use jsonp for cross origin request
+		        crossDomain:true,
+		        success: function(data, status, xhr) {
+		            availableTags =[];
+		            console.log(data);
+					for (var key in data.RESULTS) {
+					   if (data.RESULTS.hasOwnProperty(key)) {
+					       var obj = data.RESULTS[key];
+					            if (prop = 'name')
+					            {
+					            	availableTags.push(obj[prop])
+					            }						       
+					        for (var prop in obj) {
+					          if(obj.hasOwnProperty(prop)){
+					          }
+					       }
+					    }
+					}
+				    $( "#tags" ).autocomplete({
+				      source: availableTags
+				    });						
+		        }
+		    });
+	    }, 25 );
+	    return false;
+	})	
+	
+	$('#site_search').submit(function(event){
+			var lat = 0;
+			var lon = 0;
+	    	var queryVal = $('#tags').val();
+	    	var website = "http://autocomplete.wunderground.com/aq?query=" + queryVal + "&format=jsonp&c=US";
+			$.ajax({
+		        type: "GET",
+		        url: website,
+		        async:true,
+					jsonp: 'cb',			        
+				jsonpCallback: 'callback',
+		        dataType : 'jsonp',   //you may use jsonp for cross origin request
+		        crossDomain:true,
+		        success: function(data, status, xhr) {
+		            availableTags =[];
+		            console.log(data);
+					for (var key in data.RESULTS) {
+					   if (data.RESULTS.hasOwnProperty(key)) {
+					       var obj = data.RESULTS[key];
+					            if (prop = 'name')
+					            {
+					            	availableTags.push(obj[prop]);
+					            }	
+					            if (prop = 'lat')
+					            {
+					            	lat = obj[prop];
+					            }			
+					            if (prop = 'lon')
+					            {
+					            	lon = obj[prop]
+					            }			
+					            break;		            		       
+					        for (var prop in obj) {
+					          if(obj.hasOwnProperty(prop)){
+					          }
+					       }
+					    }
+					}	
 
+					console.log(lat + lon);
+
+		        }
+		    });		  
+		  event.preventDefault();	
+	})
 
 });
 </script>
@@ -57,8 +102,13 @@ $(document).ready(function(){
 	      			</form>
 				</div>
 				<div class="ui-widget">
-				<label for="tags">Tags: </label>
-				<input id="tags">
+
+				<form id="site_search">
+					<h4>Search</h4>
+					<input id="tags">
+					<input type = 'submit' class="btn btn-success" value='Submit'>
+				</form>
+
 				</div>	
 			</div>
 		</div>
