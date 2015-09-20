@@ -86,6 +86,7 @@ $(document).ready(function(){
           $.ajax({
             type: "POST",
             url: "/sites/locate",
+            dataType: 'json';
             data: {
                 'name': name,
                 'lat': lat,
