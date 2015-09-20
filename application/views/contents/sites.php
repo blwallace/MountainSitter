@@ -90,7 +90,9 @@ $(document).ready(function(){
 								'lon': lon
 								},
 						success: function(data, status, xhr){
-							console.log(data);
+							var results = JSON.parse(data);
+							ajax_formatting_table_distance(results);
+							console.log(results);
 						}
 
 					})
@@ -105,27 +107,34 @@ $(document).ready(function(){
 
 
 <div class = "container">
-	<div class="row">
-			<div class="col-xs-12">
-				<div class="mountain">
-					<form action='/sites/add' method='post'>
-						<h4>Add New Mountain</h4>
-	        			<input type="text" placeholder="ENTER PWS" name = 'site' class="form-control">
-	      				<button type="submit" class="btn btn-success">Submit</button>
-	      				<h4><a href="/sites/add_document">Force Update</a></h4>
-	      			</form>
-				</div>
-				<div class="ui-widget">
+	<div class ='row'>
+		<div class = "col-md-3"></div>
+		<div class = "col-md-6">
+			<form id="site_search">
+				<h4>Search</h4>
+				<input id="tags">
+				<input type = 'submit' class="btn btn-success" value='Submit'>
+			</form>				
+			<table class="table table-striped" id = "distance_results">
 
-				<form id="site_search">
-					<h4>Search</h4>
-					<input id="tags">
-					<input type = 'submit' class="btn btn-success" value='Submit'>
-				</form>
-
-				</div>	
-			</div>
+			</table>
 		</div>
+		<div class = "col-md-3"></div>
+	</div>
+	<div class="row">
+		<div class = "col-md-3"></div>
+		<div class = "col-md-6">				
+			<div class="mountain">
+			<form action='/sites/add' method='post'>
+				<h4>Add New Mountain</h4>
+    			<input type="text" placeholder="ENTER PWS" name = 'site' class="form-control">
+  				<button type="submit" class="btn btn-success">Submit</button>
+  				<h4><a href="/sites/add_document">Force Update</a></h4>
+  			</form>
+		</div>
+		</div>
+		<div class = "col-md-3"></div>	
+		</div>	
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="intro">

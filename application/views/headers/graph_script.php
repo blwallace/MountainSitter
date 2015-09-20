@@ -75,7 +75,6 @@
   		$.get('/recordings/find/<?= $id ?>',function(result){
   			//formats ajax result
   			var server_data = (JSON.parse(result));	
-
   			//creates windrose	
   			createGraphs(server_data);
 

@@ -37,3 +37,15 @@ function ajax_formatting_table(server_data)
 	$('#weather_summary').append(twHTML);		
 }
 
+function ajax_formatting_table_distance(server_data)
+{
+	var trHTML = '<tr><th>Location</th><th>Distance</th><th>Station ID</th></tr>';	
+	$.each(server_data, function (i, item) 
+	{
+		trHTML += "<tr><td><a href='/recordings/search/" + item.id + "'>" + item.location +"</a></td><td>"+ item.distance +" miles</td><td>" + item.station_id + "</td></tr>";
+	});
+	$('#distance_results').append(trHTML);	
+
+}
+
+

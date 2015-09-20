@@ -42,11 +42,27 @@
 
  #map { height: 50%; }
 
- .intro_class{
- 	color:white;
+.table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: white;
  }
 
- .intro_class a{
+.table-striped>tbody>tr:nth-child(even)>td, 
+.table-striped>tbody>tr:nth-child(even)>th {
+   background-color: white;
+ }
+ .intro_class a,h1{
  	color:white;
- 	text-decoration:underline;
+ 	text-align: center;
+ }
+  .intro_class h1 :hover{
+ 	color:white;
+ 	text-align: center;
+ }
+
+.btn-link :hover{
+	color:white;
+}
+ .btn-link{
+ 	color:white;
  }

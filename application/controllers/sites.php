@@ -97,15 +97,15 @@ class Sites extends CI_Controller {
 
 	public function locate()
 	{
-		// $results = $this->input->post(null,true);
+		$results = $this->input->post(null,true);
 
-		// $name = $results['name'];
-		// $lat = $results['lat'];
-		// $lon = $results['lon'];
+		$name_search = $results['name'];
+		$lat_search = $results['lat'];
+		$lon_search = $results['lon'];
 
-		$name_search = 'Yosemite National Park, California';
-		$lat_search = 37.750000;
-		$lon_search = -119.589996;
+		// $name_search = 'test';
+		// $lat_search = 15 ;
+		// $lon_search = 15;
 
 		$name_site = '';
 		$lat_site = 0;
@@ -121,27 +121,25 @@ class Sites extends CI_Controller {
 			$name_site = $sites[$i]['full'];
 			$lat_site = $sites[$i]['latitude'];
 			$lon_site = $sites[$i]['longitude'];
+			$station_id = $sites[$i]['station_id'];
 
 			$distance = $this->distance($lat_search, $lon_search, $lat_site, $lon_site, "M");
 
 			$dis_arr = array(
 				'id'=>$id,
 				'distance'=>$distance,
-				'location'=>$name_site);
+				'location'=>$name_site,
+				'station_id' => $station_id);
 
 			array_push($temp_arr,$dis_arr);
 		}
 
-		$temp_arr2 = $this->table_sort($temp_arr);
+		$data = $this->table_sort($temp_arr);
 
-		var_dump($temp_arr2);
+		$data = array(
+			'json' => json_encode($data));
 
-		// var_dump($sites);
-
-		// $data = array(
-		// 	'json'=> $lon);
-
-		// $this->load->view('partials/json',$data);
+		$this->load->view('partials/json',$data);
 	}
 
 	public function json_validation($contents)
