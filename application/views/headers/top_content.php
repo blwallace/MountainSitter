@@ -93,7 +93,7 @@ $(document).ready(function(){
                 },
             success: function(data, status, xhr){
               var results = JSON.parse(data);
-              ajax_formatting_table_distance(results);
+              // ajax_formatting_table_distance(results);
               console.log(results);
             }
 
