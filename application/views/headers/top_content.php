@@ -81,12 +81,11 @@ $(document).ready(function(){
               }
           } 
 
-          // console.log(lat + lon + name);
+          console.log(lat + lon + name);
 
           $.ajax({
             type: "POST",
             url: "/sites/locate",
-            dataType: 'json';
             data: {
                 'name': name,
                 'lat': lat,
@@ -94,7 +93,7 @@ $(document).ready(function(){
                 },
             success: function(data, status, xhr){
               var results = JSON.parse(data);
-              // ajax_formatting_table_distance(results);
+              ajax_formatting_table_distance(results);
               console.log(results);
             }
 
