@@ -2,6 +2,7 @@
 <script>
 
 	$(document).ready(function(){
+  		$('body').css("background-color","#CCCCCC");
 
 		$(function() {
 		    $( "#startdate" ).datepicker({

@@ -51,7 +51,7 @@
 .table-striped>tbody>tr:nth-child(even)>th {
    background-color: white;
  }
- .intro_class a,h1{
+ .intro_class a,h1,h4{
  	color:white;
  	text-align: center;
  }
