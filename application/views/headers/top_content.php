@@ -32,13 +32,14 @@ $(document).ready(function(){
 
 		</div>
     <div class="row">
-      <div class = "col-md-3"></div>
+      
       <div class="col-md-6">
         <h3 class="intro_class"> <form id="site_search"><input type = 'submit' class="btn-link" value='SEARCH'><input id="tags" type='text'></form></h3>
         <table class="table table-striped" id = "distance_results">
 
       </table>
       </div>
+      <div class = "col-md-3"></div>  
     <div class = "col-md-3"></div>  
     </div>
 

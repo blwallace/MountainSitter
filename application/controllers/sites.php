@@ -13,7 +13,8 @@ class Sites extends CI_Controller {
 
 	public function index()
 	{
-		$sites = $this->site->get_sites();
+		$sites = $this->site->get_active_sites();
+
 
 		$data = array(
 			'sites' => $sites);
