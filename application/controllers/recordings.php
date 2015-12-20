@@ -156,30 +156,36 @@ class Recordings extends CI_Controller {
 		foreach ($documents as $json) {
 			$document = json_decode($json['document']);
 			// if((!array_key_exists('error', $document->response)) )
-			if((!array_key_exists('error', $document->response)) && ($document->current_observation->wind_degrees >= 0))
+			if((!array_key_exists('error', $document->response)))
 			{			
+
+				if($document->current_observation->wind_degrees < 0){
+					$document->current_observation->wind_degrees = 0;
+				}
 				$degree_map[round($document->current_observation->wind_degrees,-1)] += 1;
 				// This add the mpg to the total.  can be biased if wind blows really hard in one day
 				$speed_map[round($document->current_observation->wind_degrees,-1)] += $document->current_observation->wind_mph;
 
-			//creates an php object from the json data
-			$dump = array(
-				"time" => $document->current_observation->local_time_rfc822,
-				"weather" => $document->current_observation->weather,
-				"temp_f" => $document->current_observation->temp_f,
-				"wind_dir" => $document->current_observation->wind_dir,
-				"wind_mph" => $document->current_observation->wind_mph,
-				"wind_gust_mph" => $document->current_observation->wind_gust_mph,
-				// "conditions" => $document->current_observation->
-				);
+				//creates an php object from the json data
+				$dump = array(
+					"time" => $document->current_observation->local_time_rfc822,
+					"weather" => $document->current_observation->weather,
+					"temp_f" => $document->current_observation->temp_f,
+					"wind_dir" => $document->current_observation->wind_dir,
+					"wind_mph" => $document->current_observation->wind_mph,
+					"wind_gust_mph" => $document->current_observation->wind_gust_mph,
+					// "conditions" => $document->current_observation->
+					);
 
-			array_push($table_data,$dump);
+				array_push($table_data,$dump);
+
 			}
-			
 		}
+
 		//hack to get 0 degrees to work
 		unset($degree_map[0]);
 		unset($speed_map[0]);
+
 
 		//insert function to sort array
 		$table_sorted = $this->table_sort($table_data);
