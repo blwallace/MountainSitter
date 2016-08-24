@@ -15,7 +15,7 @@
 				      	<td><?= $locations[0]['elevation'] ?></td>	
 				      </tr>
 				      <tr>
-				      	<td>Start Time</td>
+				      	<td>Start Time (No data before 8/23/16)</td>
 				      	<td><input type="text" id="startdate" name="startdate" placeholder = "<?= date("D m/d/y",strtotime('now') - (60*60*24*6)) ?>"></td>
 				      </tr>			      		
 				      <tr>
