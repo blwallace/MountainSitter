@@ -1,1 +1,1 @@
-curl http://localhost:8888/sites/add_document
+curl http://localhost:80/sites/add_document
